@@ -14,25 +14,14 @@
 
 아래는 1.0.0 앱을 직접 실행해 캡처한 화면입니다. 미디어를 선택하기 전 화면이므로 미리보기 영역은 비어 있습니다.
 
-### macOS · 동영상 다운로드
+### 동영상 다운로드
 
 ![MediaKeep macOS 동영상 다운로드 화면](docs/images/macos-video.png)
 
-### macOS · 오디오 추출
+### 오디오 추출
 
 ![MediaKeep macOS 오디오 추출 화면](docs/images/macos-audio.png)
 
-### 한국어로 전환한 화면
-
-![MediaKeep 한국어 화면](docs/images/macos-korean.png)
-
-### Windows · 실제 실행 화면
-
-![MediaKeep Windows 실행 화면](docs/images/windows-desktop-theme-2.png)
-
-### Linux · 실제 실행 화면
-
-![MediaKeep Linux 실행 화면](docs/images/linux-desktop-theme-2.png)
 
 ## 내 컴퓨터에 맞게 다운로드
 
