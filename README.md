@@ -10,6 +10,21 @@ Choose your destination folder, keep the whole video or just the part you need, 
 
 [Download MediaKeep 1.0.0](https://github.com/Choikuidong/MediaKeep/releases/latest) · [Step-by-step guide](docs/README.en.md) · [Sponsor development](https://github.com/sponsors/Choikuidong) · [Apple Craft](https://applecraft.kr)
 
+## Watch the 42-second trailer
+
+[![Watch the MediaKeep trailer in English](docs/images/mediakeep-english-trailer.jpg)](https://youtu.be/n7L9ymqGF9I)
+
+[Watch on YouTube](https://youtu.be/n7L9ymqGF9I) · English narration and captions. The kitten makes a cameo. The app does the filing.
+
+## What would you use it for?
+
+| The situation | What to do in MediaKeep |
+|---|---|
+| The best bit of your own 50-minute recording happens at minute 47. | Enter a start and end time and save that section as an MP4. Future you can skip the scavenger hunt. |
+| You recorded an interview and only need the conversation. | Open the local video in **Audio Extraction** and save the audio as an MP3. |
+| Your Downloads folder has become a second desktop. | Pick the destination before saving, and pin up to nine folders for projects you return to often. |
+| You have permission to save a tutorial and want to follow it in your preferred language. | Save it at the best available quality within your limit and request matching subtitles or a dubbed track when the source offers them. |
+
 ## Why MediaKeep?
 
 ### Save directly into the folder you want
@@ -70,9 +85,9 @@ The Mac build is locally signed without Apple Developer ID notarization. The Win
 
 Video quality limits: **2160p / 1080p / 720p / 480p**. MP3 bitrates: **320 / 192 / 128 kbps**, with 192 kbps selected by default. Higher bitrates generally use more storage.
 
-## Actual app screenshots
+## Screenshots · English interface
 
-These are real application renders from the release checks. No media has been selected yet, so the preview areas are empty.
+These screenshots show the actual app with English selected. The preview panes are empty until you load a source.
 
 ### Video download
 
@@ -81,6 +96,12 @@ These are real application renders from the release checks. No media has been se
 ### Audio extraction
 
 ![MediaKeep audio extraction on macOS](docs/images/macos-audio.png)
+
+### Windows and Linux
+
+| Windows desktop | Linux desktop |
+|---|---|
+| ![MediaKeep English interface on Windows](docs/images/windows-desktop-theme-0.png) | ![MediaKeep English interface on Linux](docs/images/linux-desktop-theme-0.png) |
 
 ## Your first download
 
