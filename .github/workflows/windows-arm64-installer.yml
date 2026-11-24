@@ -83,4 +83,4 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
-        run: gh release upload v1.0.0 MediaKeep-1.0.0-Windows-ARM64-Setup.exe MediaKeep-1.0.0-Windows-ARM64-Setup.exe.sha256
+        run: gh release upload v1.0.0 --clobber MediaKeep-1.0.0-Windows-ARM64-Setup.exe MediaKeep-1.0.0-Windows-ARM64-Setup.exe.sha256

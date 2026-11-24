@@ -246,7 +246,10 @@ def version(text):
 def release_update(platform_name=None):
     import platform
     platform_name=platform_name or ('Windows' if sys.platform=='win32' else 'Linux')
-    suffix={'Windows':'-Windows-x64.zip','Linux':'-Linux-x86_64.tar.gz'}[platform_name]
+    if platform_name=='Windows' and platform.machine().lower() in ('arm64','aarch64'):
+        suffix='-Windows-ARM64-Setup.exe'
+    else:
+        suffix={'Windows':'-Windows-x64.zip','Linux':'-Linux-x86_64.tar.gz'}[platform_name]
     request=urllib.request.Request(f'https://api.github.com/repos/{REPOSITORY}/releases/latest',headers={'User-Agent':'MediaKeep','Accept':'application/vnd.github+json'})
     with urllib.request.urlopen(request,timeout=20) as response:info=json.load(response)
     if info.get('draft') or info.get('prerelease') or version(info['tag_name'])<=version(VERSION):return None
@@ -254,4 +257,4 @@ def release_update(platform_name=None):
         url=asset.get('browser_download_url','')
         if asset.get('state')=='uploaded' and asset.get('size',0)>0 and asset['name'].startswith('MediaKeep-') and asset['name'].endswith(suffix) and url.startswith(f'https://github.com/{REPOSITORY}/releases/download/'):
             return dict(version=info['tag_name'],notes=info.get('body',''),url=url)
-    raise ValueError('The new release is not ready for this Mac yet.')
+    raise ValueError('The new release is not ready for this platform yet.')
