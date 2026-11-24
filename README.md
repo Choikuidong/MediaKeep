@@ -44,6 +44,8 @@
 | Windows 10/11 · 64비트 x86-64 | `MediaKeep-1.0.0-Windows-x64.zip` | 압축을 모두 푼 뒤 폴더 안의 `MediaKeep.exe` 실행 |
 | Linux · x86-64 · Ubuntu 22.04 이상 기준 | `MediaKeep-1.0.0-Linux-x86_64.tar.gz` | 압축을 풀고 폴더 안의 `MediaKeep` 실행 |
 
+[SHA-256 체크섬](https://github.com/Choikuidong/MediaKeep/releases/download/v1.0.0/SHA256SUMS.txt)으로 다운로드 파일이 원본과 같은지 확인할 수 있습니다.
+
 macOS Intel, Windows ARM64, Linux ARM64용 배포 파일은 포함하지 않습니다. Python, FFmpeg, yt-dlp, Deno를 별도로 설치할 필요가 없도록 배포본에 필요한 실행 구성요소를 포함합니다.
 
 ## 이런 일을 할 수 있습니다
@@ -243,7 +245,7 @@ Windows·Linux는 GitHub Actions의 **Build Windows and Linux** 작업으로도 
 | Windows x64 | Windows 러너에서 소스 실행과 패키징 후 EXE 실행 검사, 20개 언어·두 탭·네 테마, 실제 FFmpeg 변환, MP4 자막 포함·미리보기 로딩·취소 검사 |
 | Linux x86-64 | Ubuntu 22.04 러너에서 소스 실행과 패키징 후 실행 파일 검사, 동일한 실제 변환·자막·미리보기·취소 검사 |
 
-[Windows·Linux 빌드와 검사 기록](https://github.com/Choikuidong/MediaKeep/actions/runs/45369311866)
+[Windows·Linux 빌드와 검사 기록](https://github.com/Choikuidong/MediaKeep/actions/runs/45370278831)
 
 화면 이미지는 앱을 직접 렌더링한 결과입니다. 테스트는 생성한 로컬 미디어를 사용하며, 모든 온라인 영상·배포판·코덱·하드웨어 조합을 검증했다는 뜻은 아닙니다. GitHub 서비스나 원본 사이트의 변경으로 온라인 기능의 동작이 달라질 수 있습니다.
 
