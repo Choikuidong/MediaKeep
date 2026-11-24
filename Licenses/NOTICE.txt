@@ -1,0 +1,6 @@
+FFmpeg 7.1 — GPL-enabled macOS arm64 build from imageio-ffmpeg 0.6.0.
+https://github.com/imageio/imageio-ffmpeg/tree/v0.6.0
+https://github.com/FFmpeg/FFmpeg/tree/n7.1
+yt-dlp 2026.10.26 — standalone macOS executable including third-party dependencies.
+https://github.com/yt-dlp/yt-dlp/releases/tag/2026.10.26
+Deno 2.9.8 — https://github.com/denoland/deno/tree/v2.9.8

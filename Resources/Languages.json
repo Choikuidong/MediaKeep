@@ -1,0 +1,190 @@
+[
+  {
+    "code": "en",
+    "name": "English",
+    "audio": "en",
+    "iso639": "eng",
+    "subtitleAliases": [
+      "en"
+    ]
+  },
+  {
+    "code": "ko",
+    "name": "한국어",
+    "audio": "ko",
+    "iso639": "kor",
+    "subtitleAliases": [
+      "ko"
+    ]
+  },
+  {
+    "code": "ja",
+    "name": "日本語",
+    "audio": "ja",
+    "iso639": "jpn",
+    "subtitleAliases": [
+      "ja"
+    ]
+  },
+  {
+    "code": "zh-Hans",
+    "name": "简体中文",
+    "audio": "zh",
+    "iso639": "zho",
+    "subtitleAliases": [
+      "zh-Hans",
+      "zh-CN",
+      "zh"
+    ]
+  },
+  {
+    "code": "zh-Hant",
+    "name": "繁體中文",
+    "audio": "zh",
+    "iso639": "zho",
+    "subtitleAliases": [
+      "zh-Hant",
+      "zh-TW",
+      "zh-HK",
+      "zh"
+    ]
+  },
+  {
+    "code": "es",
+    "name": "Español",
+    "audio": "es",
+    "iso639": "spa",
+    "subtitleAliases": [
+      "es",
+      "es-419"
+    ]
+  },
+  {
+    "code": "fr",
+    "name": "Français",
+    "audio": "fr",
+    "iso639": "fra",
+    "subtitleAliases": [
+      "fr",
+      "fr-CA"
+    ]
+  },
+  {
+    "code": "de",
+    "name": "Deutsch",
+    "audio": "de",
+    "iso639": "deu",
+    "subtitleAliases": [
+      "de"
+    ]
+  },
+  {
+    "code": "pt-BR",
+    "name": "Português (Brasil)",
+    "audio": "pt",
+    "iso639": "por",
+    "subtitleAliases": [
+      "pt-BR",
+      "pt"
+    ]
+  },
+  {
+    "code": "it",
+    "name": "Italiano",
+    "audio": "it",
+    "iso639": "ita",
+    "subtitleAliases": [
+      "it"
+    ]
+  },
+  {
+    "code": "ru",
+    "name": "Русский",
+    "audio": "ru",
+    "iso639": "rus",
+    "subtitleAliases": [
+      "ru"
+    ]
+  },
+  {
+    "code": "id",
+    "name": "Bahasa Indonesia",
+    "audio": "id",
+    "iso639": "ind",
+    "subtitleAliases": [
+      "id"
+    ]
+  },
+  {
+    "code": "nl",
+    "name": "Nederlands",
+    "audio": "nl",
+    "iso639": "nld",
+    "subtitleAliases": [
+      "nl"
+    ]
+  },
+  {
+    "code": "pl",
+    "name": "Polski",
+    "audio": "pl",
+    "iso639": "pol",
+    "subtitleAliases": [
+      "pl"
+    ]
+  },
+  {
+    "code": "tr",
+    "name": "Türkçe",
+    "audio": "tr",
+    "iso639": "tur",
+    "subtitleAliases": [
+      "tr"
+    ]
+  },
+  {
+    "code": "uk",
+    "name": "Українська",
+    "audio": "uk",
+    "iso639": "ukr",
+    "subtitleAliases": [
+      "uk"
+    ]
+  },
+  {
+    "code": "vi",
+    "name": "Tiếng Việt",
+    "audio": "vi",
+    "iso639": "vie",
+    "subtitleAliases": [
+      "vi"
+    ]
+  },
+  {
+    "code": "sv",
+    "name": "Svenska",
+    "audio": "sv",
+    "iso639": "swe",
+    "subtitleAliases": [
+      "sv"
+    ]
+  },
+  {
+    "code": "cs",
+    "name": "Čeština",
+    "audio": "cs",
+    "iso639": "ces",
+    "subtitleAliases": [
+      "cs"
+    ]
+  },
+  {
+    "code": "ro",
+    "name": "Română",
+    "audio": "ro",
+    "iso639": "ron",
+    "subtitleAliases": [
+      "ro"
+    ]
+  }
+]

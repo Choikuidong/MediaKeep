@@ -1,0 +1,133 @@
+import Cocoa
+
+struct AppLanguage {
+    let code: String
+    let name: String
+    let audio: String
+    let iso639: String
+    let subtitleAliases: [String]
+}
+let supportedLanguages: [AppLanguage] = [
+    AppLanguage(code:"en",name:"English",audio:"en",iso639:"eng",subtitleAliases:["en"]),
+    AppLanguage(code:"ko",name:"한국어",audio:"ko",iso639:"kor",subtitleAliases:["ko"]),
+    AppLanguage(code:"ja",name:"日本語",audio:"ja",iso639:"jpn",subtitleAliases:["ja"]),
+    AppLanguage(code:"zh-Hans",name:"简体中文",audio:"zh",iso639:"zho",subtitleAliases:["zh-Hans","zh-CN","zh"]),
+    AppLanguage(code:"zh-Hant",name:"繁體中文",audio:"zh",iso639:"zho",subtitleAliases:["zh-Hant","zh-TW","zh-HK","zh"]),
+    AppLanguage(code:"es",name:"Español",audio:"es",iso639:"spa",subtitleAliases:["es","es-419"]),
+    AppLanguage(code:"fr",name:"Français",audio:"fr",iso639:"fra",subtitleAliases:["fr","fr-CA"]),
+    AppLanguage(code:"de",name:"Deutsch",audio:"de",iso639:"deu",subtitleAliases:["de"]),
+    AppLanguage(code:"pt-BR",name:"Português (Brasil)",audio:"pt",iso639:"por",subtitleAliases:["pt-BR","pt"]),
+    AppLanguage(code:"it",name:"Italiano",audio:"it",iso639:"ita",subtitleAliases:["it"]),
+    AppLanguage(code:"ru",name:"Русский",audio:"ru",iso639:"rus",subtitleAliases:["ru"]),
+    AppLanguage(code:"id",name:"Bahasa Indonesia",audio:"id",iso639:"ind",subtitleAliases:["id"]),
+    AppLanguage(code:"nl",name:"Nederlands",audio:"nl",iso639:"nld",subtitleAliases:["nl"]),
+    AppLanguage(code:"pl",name:"Polski",audio:"pl",iso639:"pol",subtitleAliases:["pl"]),
+    AppLanguage(code:"tr",name:"Türkçe",audio:"tr",iso639:"tur",subtitleAliases:["tr"]),
+    AppLanguage(code:"uk",name:"Українська",audio:"uk",iso639:"ukr",subtitleAliases:["uk"]),
+    AppLanguage(code:"vi",name:"Tiếng Việt",audio:"vi",iso639:"vie",subtitleAliases:["vi"]),
+    AppLanguage(code:"sv",name:"Svenska",audio:"sv",iso639:"swe",subtitleAliases:["sv"]),
+    AppLanguage(code:"cs",name:"Čeština",audio:"cs",iso639:"ces",subtitleAliases:["cs"]),
+    AppLanguage(code:"ro",name:"Română",audio:"ro",iso639:"ron",subtitleAliases:["ro"])
+]
+func languageInfo(_ code:String)->AppLanguage {supportedLanguages.first{$0.code==code} ?? supportedLanguages[0]}
+var selectedLanguage:String {let code=UserDefaults.standard.string(forKey:"appLanguage") ?? "en";return languageInfo(code).code}
+let translations:[String:[String:String]] = {
+    guard let url=Bundle.main.url(forResource:"Translations",withExtension:"json"),let data=try? Data(contentsOf:url),let values=try? JSONDecoder().decode([String:[String:String]].self,from:data) else{return [:]}
+    return values
+}()
+func T(_ english:String,_ korean:String)->String {selectedLanguage=="ko" ? korean : (translations[selectedLanguage]?[english] ?? english)}
+func L(_ korean:String)->String {T(englishStrings[korean] ?? korean,korean)}
+func subtitleLanguages(_ code:String)->String {let aliases=languageInfo(code).subtitleAliases;return (aliases+aliases.map{$0+"-orig"}).joined(separator:",")}
+
+let englishStrings: [String:String] = [
+  "오디오 추출": "Audio Extraction",
+  "동영상 다운로드": "Video Download",
+  "선택형 자막 포함 + SRT 저장": "Save subtitles",
+  "다운로드를 시작하면 여기에 영상이 표시됩니다.": "Your video preview will appear here.",
+  "첫 영상 데이터를 기다리는 중…": "Waiting for video data…",
+  "미리보기를 준비하고 있습니다…": "Preparing preview…",
+  "선택한 구간의 시작 부분 · 최대 10초\n무음 미리보기": "Start of selected range · Up to 10 seconds\nMuted preview",
+  "미리보기를 시작하지 못했습니다.": "Could not start preview.",
+  "저장된 파일 보기": "Reveal saved file",
+  "전체": "Entire video",
+  "구간 지정": "Custom range",
+  "미리보기 불러오기": "Load preview",
+  "+ 위치 추가": "+ Add location",
+  "별명·위치 편집": "Edit names & locations",
+  "별명을 비우면 실제 폴더 이름을 표시합니다.": "Leave the name empty to use the folder name.",
+  "새 별명": "New name",
+  "별명 저장": "Save name",
+  "등록 해제": "Remove shortcut",
+  "취소": "Cancel",
+  "내 동영상": "Local video",
+  "유튜브 링크": "YouTube link",
+  "선택한 동영상이 없습니다": "No video selected",
+  "자막 파일 없음 · 유튜브 모드에서는 온라인 자막 사용": "No subtitle file · Online subtitles used for YouTube",
+  "동영상이나 유튜브 링크를 선택하세요.": "Select a video or paste a YouTube link.",
+  "자막도 저장 (SRT + MP3 플레이어용 LRC)": "Save subtitles (SRT + LRC)",
+  "동영상 선택…": "Choose video…",
+  "자막 파일 선택…": "Choose subtitles…",
+  "자막 해제": "Clear",
+  "오디오 추출하기 · MP3…": "Extract MP3",
+  "담아컷": "MediaKeep",
+  "담아컷에 관하여": "About MediaKeep",
+  "담아컷 종료": "Quit MediaKeep",
+  "버전 ": "Version ",
+  "사과공방": "Apple Craft",
+  "개발자 최귀동": "Developer: Choi Kuidong",
+  "개발일 2026년 11월": "Developed: November 2026",
+  "동영상 다운로드 · MP4…": "Download MP4",
+  "다운로드할 유튜브 동영상 링크를 입력하세요.": "Paste a YouTube link to download.",
+  "취소했습니다.": "Cancelled.",
+  " · 남은 시간 ": " · ETA ",
+  "계산 중": "Calculating",
+  "음성": "Audio",
+  "영상": "Video",
+  " 다운로드  ": " download  ",
+  "영상과 소리를 합치는 중…": "Merging video and audio…",
+  "올바른 유튜브 동영상 링크를 입력하세요.": "Please enter a valid YouTube video link.",
+  "다운로드 도구를 찾을 수 없습니다. 앱을 종료하고 응용 프로그램에 설치한 담아컷을 다시 열어 주세요.": "Download tools are missing. Reinstall MediaKeep in Applications.",
+  "동영상 파일을 먼저 선택하세요.": "Choose a video file first.",
+  "영상 제목을 확인하고 있습니다…": "Fetching video information…",
+  " 없음": " unavailable",
+  " 제공": " provided",
+  " 자동": " automatic",
+  "\n자막  ": "\nSubtitles  ",
+  "영상 제목 조회 실패 · ": "Could not fetch video information · ",
+  " 자막을 덮어쓸까요?": " — replace existing subtitles?",
+  "덮어쓰기": "Replace",
+  "영상과 소리를 다운로드하고 있습니다…": "Downloading video and audio…",
+  "선택한 스트림을 받을 수 없어 호환 MP4로 다시 시도합니다…": "Retrying with a compatible MP4 stream…",
+  "저장 완료 · ": "Saved · ",
+  "선택한 언어의 자막을 확인하고 있습니다…": "Checking subtitles for the selected language…",
+  "MP4 저장 완료 · 선택한 언어의 자막이 없습니다.": "MP4 saved · No subtitles for the selected language.",
+  "MP4 저장 완료 · 자막을 가져오지 못했습니다.": "MP4 saved · Could not fetch subtitles.",
+  "선택한 구간을 MP4로 변환하는 중…": "Converting the selected range to MP4…",
+  "MP4에 선택형 자막을 넣는 중…": "Embedding optional subtitles…",
+  "MP4 저장 완료 · 자막은 SRT 파일로 저장했습니다.": "MP4 saved · Subtitles saved separately as SRT.",
+  "MP4와 SRT 자막을 함께 저장했습니다.": "MP4 and SRT subtitles saved.",
+  "MP4 저장 완료 · 자막 파일 저장에 실패했습니다.": "MP4 saved · Could not save subtitles.",
+  "저장 완료 · 재생 버튼을 눌러 결과를 확인하세요.": "Saved · Press play to preview the result.",
+  "영상 저장 실패 · ": "Video download failed · ",
+  "시작과 종료 시간을 확인하세요.": "Check the start and end times.",
+  "파일 이름을 짧게 입력하세요.": "Please enter a shorter file name.",
+  "저장 폴더에 쓸 수 없습니다. 다른 위치를 선택하세요.": "Cannot write to this folder. Choose another location.",
+  "같은 이름의 파일을 덮어쓸까요?": "Replace the existing file?",
+  "원본 파일과 다른 이름으로 저장하세요.": "Use a different name to protect the original file.",
+  "같은 이름의 자막을 덮어쓸까요?": "Replace the existing subtitles?",
+  "준비하고 있습니다…": "Preparing…",
+  "유튜브에서 오디오를 다운로드하고 있습니다…": "Downloading audio from YouTube…",
+  "다운로드한 오디오를 찾을 수 없습니다.": "Downloaded audio was not found.",
+  "MP3로 변환하고 있습니다…": "Converting to MP3…",
+  "유튜브 자막을 가져오고 있습니다…": "Fetching YouTube subtitles…",
+  " · 선택한 언어의 자막이 없어 MP3만 저장했습니다.": " · No matching subtitles; MP3 saved.",
+  " · 온라인 자막을 가져오지 못해 MP3만 저장했습니다.": " · Could not fetch subtitles; MP3 saved.",
+  "SRT와 LRC 자막을 생성하고 있습니다…": "Creating SRT and LRC subtitles…",
+  " · 자막 파일을 변환하지 못해 MP3만 저장했습니다.": " · Could not convert subtitles; MP3 saved.",
+  " · 선택한 자막이 없어 MP3만 저장했습니다.": " · No subtitle file selected; MP3 saved.",
+  "완료! MP3 + SRT + LRC를 저장했습니다.": "Saved MP3 + SRT + LRC.",
+  "완료! MP3를 저장했습니다.": "MP3 saved.",
+  "MP3는 저장했으나 자막 저장에 실패했습니다: ": "MP3 saved, but subtitles failed: ",
+  "작업 실패: ": "Task failed: ",
+  "다운로드": "Downloads"
+]
