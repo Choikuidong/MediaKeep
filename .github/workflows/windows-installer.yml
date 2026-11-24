@@ -1,0 +1,62 @@
+name: Build and publish Windows installer
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: windows-2022
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify and unpack the published Windows app
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $zip = 'MediaKeep-1.0.0-Windows-x64.zip'
+          gh release download v1.0.0 --pattern $zip --pattern SHA256SUMS.txt --dir installer-input
+          if ($LASTEXITCODE -ne 0) { throw 'Unable to download release assets' }
+          $line = Get-Content installer-input/SHA256SUMS.txt | Where-Object { $_ -match "  $([regex]::Escape($zip))$" }
+          if (-not $line -or (Get-FileHash "installer-input/$zip").Hash -ne ($line -split '\s+')[0]) { throw 'Windows ZIP checksum mismatch' }
+          Expand-Archive "installer-input/$zip" installer-input
+      - name: Compile installer
+        run: |
+          & "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe" Desktop\MediaKeep.iss
+          if ($LASTEXITCODE -ne 0) { throw 'Installer compilation failed' }
+      - name: Test install, launch, and uninstall
+        env:
+          QT_QPA_PLATFORM: offscreen
+        run: |
+          function Invoke-Checked($File, $Arguments) {
+            $process = Start-Process -FilePath $File -ArgumentList $Arguments -Wait -PassThru
+            if ($process.ExitCode -ne 0) { throw "$File exited with code $($process.ExitCode)" }
+          }
+          $install = "$env:LOCALAPPDATA\Programs\MediaKeep"
+          $shortcut = Join-Path ([Environment]::GetFolderPath('Programs')) 'MediaKeep.lnk'
+          $setup = 'build\MediaKeep-1.0.0-Windows-x64-Setup.exe'
+          Invoke-Checked $setup '/VERYSILENT /SUPPRESSMSGBOXES /NORESTART'
+          if (-not (Test-Path $shortcut)) { throw 'Start menu shortcut missing' }
+          Invoke-Checked "$install\MediaKeep.exe" '--self-test'
+          Invoke-Checked "$install\unins000.exe" '/VERYSILENT /SUPPRESSMSGBOXES /NORESTART'
+          if ((Test-Path "$install\MediaKeep.exe") -or (Test-Path $shortcut)) { throw 'Uninstall left the application or shortcut behind' }
+          $digest = (Get-FileHash $setup).Hash.ToLowerInvariant()
+          "$digest  $(Split-Path $setup -Leaf)" | Set-Content "$setup.sha256" -Encoding ascii
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Windows installer
+          path: build/MediaKeep-1.0.0-Windows-x64-Setup.exe*
+          if-no-files-found: error
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: Windows installer
+      - name: Add installer to the existing release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: gh release upload v1.0.0 MediaKeep-1.0.0-Windows-x64-Setup.exe MediaKeep-1.0.0-Windows-x64-Setup.exe.sha256
