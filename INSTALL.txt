@@ -1,4 +1,4 @@
-MediaKeep 1.0.0 — 20 languages — Apple Craft / 사과공방
+MediaKeep 1.0.0 — 20 languages — Apple Craft
 
 macOS 13+, Apple Silicon: Quit the old app, open the DMG, drag MediaKeep.app into Applications.
 Windows 10/11 x64: Extract ALL files from the ZIP. Open MediaKeep/MediaKeep.exe. Keep _internal next to the executable.
@@ -11,9 +11,12 @@ Only source-provided subtitles and dubbed audio are used. MediaKeep does not gen
 This is a new version series starting at 1.0.0. Users of the old 1.2.x series must install 1.0.0 manually. New updates after 1.0.0 can be checked from the app menu.
 The Mac build is locally signed without Apple notarization. The Windows build is unsigned. Verify the download source before allowing the application to run.
 
-한국어 상세 설치·사용 방법과 이미지:
+Full illustrated installation and user guide:
 https://github.com/Choikuidong/MediaKeep
 
+Optional sponsorship:
+https://github.com/sponsors/Choikuidong
+
 https://applecraft.kr
-Developer: Choi Kuidong / 최귀동 · Apple Craft / 사과공방
+Developer: Choi Kuidong · Apple Craft
 © 2026 Apple Craft. All rights reserved.

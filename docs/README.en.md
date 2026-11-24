@@ -1,10 +1,16 @@
 # MediaKeep 1.0.0 — user guide
 
-[한국어 설명](../README.md) · [Downloads](https://github.com/Choikuidong/MediaKeep/releases/latest) · [Apple Craft](https://applecraft.kr)
+[Project overview](../README.md) · [Downloads](https://github.com/Choikuidong/MediaKeep/releases/latest) · [Apple Craft](https://applecraft.kr)
 
 **Save videos. Extract audio. Keep the parts you want.**
 
 MediaKeep is a free desktop utility for downloading permitted YouTube videos, extracting MP3 audio, and keeping subtitles alongside your media. It runs as a native AppKit app on Apple Silicon Macs and a Qt desktop app on Windows and Linux.
+
+## Keep files organized with less work
+
+Choose your destination folder before downloading. Save different subjects into separate folders and keep nine favorite locations available as named, draggable shortcuts. A completed download can be found immediately with **Reveal saved file**.
+
+Keep the entire video or select just a useful start/end range. For language-aware defaults, choose your interface language once and leave subtitles on **App language** and audio on **App language · Prefer dub**. MediaKeep selects the best available stream up to your quality limit (4K by default), requests matching source-provided subtitles, and prefers an available matching dubbed voice. Missing dubs fall back to original/available audio; missing subtitles are reported while the media is saved. These settings do not generate new translations, dubbing, or higher source resolution.
 
 ## Choose your download
 
@@ -58,6 +64,27 @@ Register up to nine folders using **+ Add location**. Folder pickers allow creat
 
 Source previews are not promises about a download's completion. On Mac, a short muted video sample may be prepared from incoming data. Windows/Linux show source thumbnails and progress, then play the completed local media. Browser previews open the original source page. Range downloads may fetch the full source before cutting, so their network usage is not limited to the selected duration.
 
+## Linux
+
+Extract the archive and run it from a desktop session:
+
+```sh
+tar -xzf MediaKeep-1.0.0-Linux-x86_64.tar.gz
+cd MediaKeep
+./MediaKeep
+```
+
+On Ubuntu, the display/audio dependencies can be installed with:
+
+```sh
+sudo apt-get update
+sudo apt-get install libegl1 libopengl0 libxcb-cursor0 libxkbcommon-x11-0 libpulse0 libnss3 libasound2
+```
+
+## Support development
+
+[Sponsor Choi Kuidong on GitHub Sponsors](https://github.com/sponsors/Choikuidong). Support is optional; the app remains free. The public sponsor page offers monthly and one-time support options.
+
 ## Updating
 
 The app checks stable GitHub Releases at launch and daily while it is running. You can check immediately from the menu. A newer release offers Download Update, Later, or Skip This Version. Only a higher numeric stable release with an uploaded installer for your platform is offered. Editing source files alone does not notify users. After downloading, quit and replace the app yourself; no background service or silent installer is installed.
@@ -77,6 +104,6 @@ Preferences are saved on your computer. Downloads contact the original service; 
 
 Download or convert only content you have permission to use. Check applicable law, source terms, and the rights holder's permission. You are responsible for your use.
 
-Developed by **Choi Kuidong / 최귀동**, **Apple Craft / 사과공방**. Third-party notices are included in `Licenses`. See the main README for the build process and source layout.
+Developed by **Choi Kuidong**, **Apple Craft**. Third-party notices are included in `Licenses`. See the main README for the build process and source layout.
 
 © 2026 Apple Craft. All rights reserved.
