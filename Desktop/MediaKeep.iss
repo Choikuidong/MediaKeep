@@ -1,18 +1,32 @@
+#ifdef MediaKeepARM64
+  #define Product "MediaKeep (ARM64)"
+  #define AppKey "AppleCraft.MediaKeep.ARM64"
+  #define Architecture "arm64"
+  #define MinimumWindows "10.0.22000"
+  #define SetupName "MediaKeep-1.0.0-Windows-ARM64-Setup"
+#else
+  #define Product "MediaKeep"
+  #define AppKey "AppleCraft.MediaKeep"
+  #define Architecture "x64compatible"
+  #define MinimumWindows "10.0"
+  #define SetupName "MediaKeep-1.0.0-Windows-x64-Setup-r2"
+#endif
+
 [Setup]
-AppId=AppleCraft.MediaKeep
-AppName=MediaKeep
+AppId={#AppKey}
+AppName={#Product}
 AppVersion=1.0.0
 AppPublisher=Apple Craft
 AppPublisherURL=https://applecraft.kr/
-DefaultDirName={localappdata}\Programs\MediaKeep
+DefaultDirName={localappdata}\Programs\{#Product}
 PrivilegesRequired=lowest
-ArchitecturesAllowed=x64compatible
-ArchitecturesInstallIn64BitMode=x64compatible
-MinVersion=10.0
+ArchitecturesAllowed={#Architecture}
+ArchitecturesInstallIn64BitMode={#Architecture}
+MinVersion={#MinimumWindows}
 DisableProgramGroupPage=yes
 UninstallDisplayIcon={app}\MediaKeep.exe
 OutputDir=..\build
-OutputBaseFilename=MediaKeep-1.0.0-Windows-x64-Setup-r2
+OutputBaseFilename={#SetupName}
 Compression=lzma2/fast
 SolidCompression=yes
 WizardStyle=modern
@@ -24,8 +38,8 @@ Name: "desktopicon"; Description: "Create a desktop shortcut"; Flags: unchecked
 Source: "..\installer-input\MediaKeep\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
-Name: "{userprograms}\MediaKeep"; Filename: "{app}\MediaKeep.exe"
-Name: "{userdesktop}\MediaKeep"; Filename: "{app}\MediaKeep.exe"; Tasks: desktopicon
+Name: "{userprograms}\{#Product}"; Filename: "{app}\MediaKeep.exe"
+Name: "{userdesktop}\{#Product}"; Filename: "{app}\MediaKeep.exe"; Tasks: desktopicon
 
 [Run]
 Filename: "{app}\MediaKeep.exe"; Description: "Launch MediaKeep"; Flags: nowait postinstall skipifsilent

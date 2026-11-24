@@ -1,0 +1,86 @@
+name: Build and publish Windows ARM64 installer
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: windows-11-arm
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.10'
+          architecture: arm64
+      - name: Build the native ARM64 application
+        run: |
+          python -c "import platform; assert platform.machine().lower() in ('arm64', 'aarch64')"
+          if ($LASTEXITCODE -ne 0) { throw 'Native ARM64 Python is required' }
+          python -m pip install --only-binary=:all: -r Desktop/requirements.txt
+          if ($LASTEXITCODE -ne 0) { throw 'Could not install ARM64 dependencies' }
+          python Desktop/build.py
+          if ($LASTEXITCODE -ne 0) { throw 'Application build failed' }
+          Expand-Archive build/MediaKeep-1.0.0-Windows-ARM64.zip installer-input
+      - name: Verify executable architectures
+        shell: python
+        run: |
+          import pathlib
+          import struct
+          root = pathlib.Path("installer-input/MediaKeep")
+          binaries = [root / "MediaKeep.exe"]
+          for pattern in ("python312.dll", "Qt6Core.dll", "deno.exe", "ffmpeg*.exe"):
+              matches = list(root.rglob(pattern))
+              assert matches, pattern
+              binaries.extend(matches)
+          for path in binaries:
+              with path.open("rb") as stream:
+                  stream.seek(60)
+                  header = struct.unpack("<I", stream.read(4))[0]
+                  stream.seek(header)
+                  magic, machine = struct.unpack("<4sH", stream.read(6))
+              assert magic == b"PE\0\0" and machine == 0xAA64, (path, hex(machine))
+              print(f"ARM64: {path}")
+      - name: Compile installer
+        run: |
+          $iscc = Get-Command ISCC.exe -ErrorAction SilentlyContinue
+          $compiler = if ($iscc) { $iscc.Source } else { "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe" }
+          & $compiler /DMediaKeepARM64 Desktop\MediaKeep.iss
+          if ($LASTEXITCODE -ne 0) { throw 'Installer compilation failed' }
+      - name: Test install, launch, and uninstall
+        env:
+          QT_QPA_PLATFORM: offscreen
+        run: |
+          function Invoke-Checked($File, $Arguments) {
+            $process = Start-Process -FilePath $File -ArgumentList $Arguments -Wait -PassThru
+            if ($process.ExitCode -ne 0) { throw "$File exited with code $($process.ExitCode)" }
+          }
+          $install = "$env:LOCALAPPDATA\Programs\MediaKeep (ARM64)"
+          $shortcut = Join-Path ([Environment]::GetFolderPath('Programs')) 'MediaKeep (ARM64).lnk'
+          $setup = 'build\MediaKeep-1.0.0-Windows-ARM64-Setup.exe'
+          Invoke-Checked $setup '/VERYSILENT /SUPPRESSMSGBOXES /NORESTART'
+          if (-not (Test-Path $shortcut)) { throw 'Start menu shortcut missing' }
+          Invoke-Checked "$install\MediaKeep.exe" '--self-test'
+          Invoke-Checked "$install\unins000.exe" '/VERYSILENT /SUPPRESSMSGBOXES /NORESTART'
+          if ((Test-Path "$install\MediaKeep.exe") -or (Test-Path $shortcut)) { throw 'Uninstall left the application or shortcut behind' }
+          $digest = (Get-FileHash $setup).Hash.ToLowerInvariant()
+          "$digest  $(Split-Path $setup -Leaf)" | Set-Content "$setup.sha256" -Encoding ascii
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Windows ARM64 installer
+          path: build/MediaKeep-1.0.0-Windows-ARM64-Setup.exe*
+          if-no-files-found: error
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: Windows ARM64 installer
+      - name: Add installer to the existing release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: gh release upload v1.0.0 MediaKeep-1.0.0-Windows-ARM64-Setup.exe MediaKeep-1.0.0-Windows-ARM64-Setup.exe.sha256
