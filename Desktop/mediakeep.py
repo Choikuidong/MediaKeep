@@ -3,7 +3,7 @@ from __future__ import annotations
 import sys, os, json, time, platform
 from pathlib import Path
 from PySide6.QtCore import Qt,QThread,Signal,QObject,QUrl,QSettings,QMimeData,QTimer
-from PySide6.QtGui import QIcon,QPixmap,QDrag,QDesktopServices,QAction
+from PySide6.QtGui import QIcon,QPixmap,QDrag,QDesktopServices,QAction,QFont,QFontDatabase
 from PySide6.QtWidgets import (QApplication,QMainWindow,QWidget,QVBoxLayout,QHBoxLayout,QGridLayout,QLabel,QPushButton,QComboBox,QLineEdit,QCheckBox,QButtonGroup,QGroupBox,QProgressBar,QFileDialog,QMessageBox,QDialog,QDialogButtonBox,QInputDialog,QSlider)
 from PySide6.QtMultimedia import QMediaPlayer,QAudioOutput
 from PySide6.QtMultimediaWidgets import QVideoWidget
@@ -274,6 +274,10 @@ class Window(QMainWindow):
 
 def main():
     app=QApplication(sys.argv);app.setApplicationName('MediaKeep');app.setApplicationVersion(VERSION);app.setOrganizationName('AppleCraft');app.setWindowIcon(QIcon(str(RESOURCE/'MediaKeep.png')))
+    for font in ['NotoSans.ttf','NotoSansCJK-Regular.otf']:
+        ident=QFontDatabase.addApplicationFont(str(RESOURCE/'fonts'/font))
+        if ident<0:raise RuntimeError('Could not load bundled font: '+font)
+    app.setFont(QFont('Noto Sans',10))
     if '--self-test' in sys.argv:
         from verify import run
         return run(app)

@@ -1,12 +1,17 @@
 import os,json,tempfile,sys,time
 from pathlib import Path
 from PySide6.QtCore import Qt,QUrl
-from PySide6.QtGui import QPixmap
+from PySide6.QtGui import QPixmap,QFont,QRawFont
 from core import *
 
 def run(app):
     from mediakeep import Window
     if getattr(sys,'frozen',False):assert deno_path() and os.access(deno_path(),os.X_OK)
+    fonts=[QRawFont(str(RESOURCE/'fonts'/name),14) for name in ['NotoSans.ttf','NotoSansCJK-Regular.otf']]
+    assert all(f.isValid() for f in fonts),'Bundled fonts could not be loaded'
+    for code,strings in STRINGS.items():
+        for ch in set(''.join(strings.values())):
+            if ch.isalnum():assert any(f.supportsCharacter(ord(ch)) for f in fonts),(code,ch,'Missing glyph')
     assert len(LANGUAGES)==20 and len(set(x['code'] for x in LANGUAGES))==20
     keys=set(STRINGS['ja'])
     for code in STRINGS:

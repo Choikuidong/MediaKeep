@@ -267,7 +267,9 @@ Windows·Linux는 GitHub Actions의 **Build Windows and Linux** 작업으로도 
 
 ## 외부 구성요소
 
-macOS 배포본은 FFmpeg, yt-dlp, Deno를 포함합니다. Windows·Linux는 PySide6/Qt, yt-dlp, imageio-ffmpeg의 FFmpeg 및 Deno를 포함합니다. Qt와 FFmpeg의 라이선스·원문 및 각 구성요소의 고지를 `Licenses`에서 확인해 주세요. Qt는 동적 라이브러리로 배포되며 별도 교체 가능한 폴더 구성을 유지합니다.
+macOS 배포본은 FFmpeg, yt-dlp, Deno를 포함합니다. Windows·Linux는 PySide6/Qt, yt-dlp, imageio-ffmpeg의 FFmpeg 및 Deno를 포함합니다. 20개 언어 표시를 위한 Noto Sans 및 Noto Sans CJK 글꼴도 포함합니다. 글꼴의 SIL Open Font License 고지는 `Licenses/NotoSans-OFL.txt`, `Licenses/NotoCJK-OFL.txt`에서 확인할 수 있습니다.
+
+Qt와 FFmpeg의 라이선스·원문 및 각 구성요소의 고지를 `Licenses`에서 확인해 주세요. Qt는 동적 라이브러리로 배포되며 별도 교체 가능한 폴더 구성을 유지합니다.
 
 - Qt/PySide 소스: https://code.qt.io/pyside/pyside-setup.git
 - yt-dlp 소스: https://github.com/yt-dlp/yt-dlp
