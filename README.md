@@ -1,3 +1,5 @@
+<p align="center"><img src="Resources/MediaKeep.png" width="96" alt="MediaKeep icon"></p>
+
 # MediaKeep 1.0.0
 
 **영상은 MP4로, 소리는 MP3로. 필요한 구간과 자막을 한곳에 저장하는 무료 데스크톱 도구입니다.**
@@ -241,7 +243,7 @@ Windows·Linux는 GitHub Actions의 **Build Windows and Linux** 작업으로도 
 | Windows x64 | Windows 러너에서 소스 실행과 패키징 후 EXE 실행 검사, 20개 언어·두 탭·네 테마, 실제 FFmpeg 변환, MP4 자막 포함·미리보기 로딩·취소 검사 |
 | Linux x86-64 | Ubuntu 22.04 러너에서 소스 실행과 패키징 후 실행 파일 검사, 동일한 실제 변환·자막·미리보기·취소 검사 |
 
-[Windows·Linux 빌드와 검사 기록](https://github.com/Choikuidong/MediaKeep/actions/runs/45367826015)
+[Windows·Linux 빌드와 검사 기록](https://github.com/Choikuidong/MediaKeep/actions/runs/45369311866)
 
 화면 이미지는 앱을 직접 렌더링한 결과입니다. 테스트는 생성한 로컬 미디어를 사용하며, 모든 온라인 영상·배포판·코덱·하드웨어 조합을 검증했다는 뜻은 아닙니다. GitHub 서비스나 원본 사이트의 변경으로 온라인 기능의 동작이 달라질 수 있습니다.
 

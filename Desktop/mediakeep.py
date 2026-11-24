@@ -3,7 +3,7 @@ from __future__ import annotations
 import sys, os, json, time, platform
 from pathlib import Path
 from PySide6.QtCore import Qt,QThread,Signal,QObject,QUrl,QSettings,QMimeData,QTimer
-from PySide6.QtGui import QIcon,QPixmap,QDrag,QDesktopServices,QAction,QFont,QFontDatabase
+from PySide6.QtGui import QIcon,QPixmap,QDrag,QDesktopServices,QAction,QFont,QFontDatabase,QPainter
 from PySide6.QtWidgets import (QApplication,QMainWindow,QWidget,QVBoxLayout,QHBoxLayout,QGridLayout,QLabel,QPushButton,QComboBox,QLineEdit,QCheckBox,QButtonGroup,QGroupBox,QProgressBar,QFileDialog,QMessageBox,QDialog,QDialogButtonBox,QInputDialog,QSlider)
 from PySide6.QtMultimedia import QMediaPlayer,QAudioOutput
 from PySide6.QtMultimediaWidgets import QVideoWidget
@@ -25,7 +25,13 @@ class Worker(QObject):
 
 class FolderButton(QPushButton):
     moved=Signal(int,int)
-    def __init__(self,index,parent=None):super().__init__(parent);self.index=index;self.setAcceptDrops(True);self.origin=None
+    def __init__(self,index,parent=None):super().__init__(parent);self.index=index;self.setAcceptDrops(True);self.origin=None;self.filled=False
+    def paintEvent(self,event):
+        super().paintEvent(event)
+        if self.filled:
+            painter=QPainter(self);painter.setRenderHint(QPainter.Antialiasing);painter.setPen(Qt.NoPen);painter.setBrush(self.palette().buttonText())
+            for x in [7,11]:
+                for y in [-5,0,5]:painter.drawEllipse(x,self.height()//2+y,2,2)
     def mousePressEvent(self,event):self.origin=event.position().toPoint();super().mousePressEvent(event)
     def mouseMoveEvent(self,event):
         if self.origin is not None and event.buttons()&Qt.LeftButton and (event.position().toPoint()-self.origin).manhattanLength()>QApplication.startDragDistance():
@@ -43,7 +49,7 @@ class Window(QMainWindow):
         self.destination=Path(self.settings.value('destination',str(Path.home()/'Downloads')))
         self.folders=json.loads(self.settings.value('folders','[]'))[:9]
         if not self.folders:self.folders=[{'path':str(self.destination),'name':''}]
-        self.source_file='';self.caption_file='';self.last_output=None;self.info=None;self.pending_save=False;self.preview_url=''
+        self.source_file='';self.caption_file='';self.auto_name='';self.last_output=None;self.info=None;self.pending_save=False;self.preview_url=''
         self.setWindowTitle('MediaKeep '+VERSION);self.setWindowIcon(QIcon(str(RESOURCE/'MediaKeep.png')));self.resize(1120,820);self.setMinimumSize(1060,780)
         self.player=QMediaPlayer(self);self.audio=QAudioOutput(self);self.audio.setVolume(.65);self.player.setAudioOutput(self.audio)
         self.build();self.translate();self.apply_theme();self.refresh_folders()
@@ -147,8 +153,8 @@ class Window(QMainWindow):
         self.folder_path.setText(str(self.destination));self.folder_path.setToolTip(str(self.destination))
         for i,b in enumerate(self.folder_buttons):
             if i<len(self.folders):
-                item=self.folders[i];b.setText('⠿  '+(item['name'] or Path(item['path']).name));b.setToolTip(item['path']);b.setChecked(Path(item['path'])==self.destination)
-            else:b.setText(self.t('+ Add location'));b.setChecked(False)
+                item=self.folders[i];b.filled=True;b.setText(item['name'] or Path(item['path']).name);b.setToolTip(item['path']);b.setChecked(Path(item['path'])==self.destination)
+            else:b.filled=False;b.setText(self.t('+ Add location'));b.setChecked(False)
         if not self.testing:self.settings.setValue('folders',json.dumps(self.folders,ensure_ascii=False));self.settings.setValue('destination',str(self.destination))
     def select_folder(self,i):
         if self.work:return
@@ -197,7 +203,8 @@ class Window(QMainWindow):
         self.pending_save=save;self.status.setText(self.t('Fetching video information…'));self.start_worker('inspect',(source,online),lambda info:self.inspected(info,source,online))
     def inspected(self,info,source,online):
         self.info=dict(info,source=source,online=online);self.preview_url=info['url'];self.preview_note.setText(info['title'])
-        if not self.filename.text().strip():self.filename.setText(clean_name(info['title']))
+        if not self.filename.text().strip() or self.filename.text()==self.auto_name:self.filename.setText(clean_name(info['title']))
+        self.auto_name=clean_name(info['title'])
         if info.get('image'):
             image=QPixmap();image.loadFromData(info['image']);self.thumbnail.setPixmap(image.scaled(500,270,Qt.KeepAspectRatio,Qt.SmoothTransformation));self.player.stop();self.video_widget.hide();self.thumbnail.show()
         elif not online:self.show_media(Path(source))

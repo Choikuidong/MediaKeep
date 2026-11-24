@@ -49,6 +49,13 @@ def run(app):
     with tempfile.TemporaryDirectory() as name:
         root=Path(name);movie=root/'input.mp4';sub=root/'input.srt';sub.write_text(text,encoding='utf-8')
         engine.run(['-f','lavfi','-i','color=c=blue:s=320x180:d=4','-f','lavfi','-i','sine=frequency=440:duration=4','-c:v','libx264','-c:a','aac','-shortest',movie])
+        window.filename.clear()
+        window.inspected({'title':'First','url':str(movie)},str(movie),False)
+        window.inspected({'title':'Second','url':str(movie)},str(movie),False)
+        assert window.filename.text()=='Second'
+        window.filename.setText('Custom')
+        window.inspected({'title':'Third','url':str(movie)},str(movie),False)
+        assert window.filename.text()=='Custom'
         out=root/'音楽 test.mp3';result=engine.save(Request(str(movie),False,out,False,subtitle_file=str(sub),start=2,end=2.75))
         assert out.stat().st_size>100 and '[00:00.00]' in out.with_suffix('.lrc').read_text(encoding='utf-8')
         video=root/'video.mp4';result=engine.save(Request(str(movie),False,video,True,subtitle_file=str(sub),subtitle_language='ja',start=1,end=3))

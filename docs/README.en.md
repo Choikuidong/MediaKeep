@@ -68,7 +68,7 @@ The app checks stable GitHub Releases at launch and daily while it is running. Y
 - **Original language instead of a dub:** no matching dubbed track may be available.
 - **Missing subtitles:** select a source-provided language. Optional MP4 subtitles may need enabling in your player. Look for the separate SRT too.
 - **Download errors:** check the link and network. DRM and private/paid/account/region/age restrictions are not bypassed. Source services can change; check for an app update.
-- **Linux will not start:** use a desktop session and install Qt's system display/audio libraries. On Ubuntu, see the commands in the main README. Some languages may require appropriate system fonts.
+- **Linux will not start:** use a desktop session and install Qt's system display/audio libraries. On Ubuntu, see the commands in the main README. The application includes Noto fonts for its 20 interface languages. Native OS dialogs still use system fonts.
 - **Windows will not start:** extract all files; do not run only the EXE copied away from `_internal`.
 
 ## Privacy, permissions, and credits
