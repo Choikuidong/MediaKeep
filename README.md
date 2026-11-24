@@ -61,11 +61,12 @@ You can override subtitle and audio languages separately. **MediaKeep does not u
 |---|---|---|
 | **macOS 13+ · Apple Silicon / M1 or later** | [Mac DMG](https://github.com/Choikuidong/MediaKeep/releases/download/v1.0.0/MediaKeep-1.0.0-macOS-arm64.dmg) | Open the DMG and drag MediaKeep into Applications. |
 | **Windows 10/11 · x64** | [Windows installer](https://github.com/Choikuidong/MediaKeep/releases/download/v1.0.0/MediaKeep-1.0.0-Windows-x64-Setup-r2.exe) · [Portable ZIP](https://github.com/Choikuidong/MediaKeep/releases/download/v1.0.0/MediaKeep-1.0.0-Windows-x64.zip) | Run Setup and open MediaKeep from the Start menu. For the portable ZIP, extract all files first. |
+| Windows 11 · ARM64 | [Native ARM64 installer](https://github.com/Choikuidong/MediaKeep/releases/download/v1.0.0/MediaKeep-1.0.0-Windows-ARM64-Setup.exe) | Run Setup and open MediaKeep (ARM64) from the Start menu. |
 | **Linux · x86-64 · Ubuntu 22.04+ baseline** | [Linux archive](https://github.com/Choikuidong/MediaKeep/releases/download/v1.0.0/MediaKeep-1.0.0-Linux-x86_64.tar.gz) | Extract and run `./MediaKeep/MediaKeep` in a desktop session. |
 
 [All release files and notes](https://github.com/Choikuidong/MediaKeep/releases/latest) · [Source archive](https://github.com/Choikuidong/MediaKeep/releases/download/v1.0.0/MediaKeep-1.0.0-source.zip) · [SHA-256 checksums](https://github.com/Choikuidong/MediaKeep/releases/download/v1.0.0/SHA256SUMS.txt) · [Windows installer checksum](https://github.com/Choikuidong/MediaKeep/releases/download/v1.0.0/MediaKeep-1.0.0-Windows-x64-Setup-r2.exe.sha256)
 
-Python and the media tools do not need to be installed separately when using these packages. Windows 11 on ARM can run the x64 installer and app through emulation. The Windows installer adds a Start menu shortcut and an uninstall entry without needing administrator rights. Keep the portable Windows/Linux application folder intact, including `_internal`. Mac Intel, Windows ARM64, and Linux ARM64 packages are not included.
+Python and the media tools do not need to be installed separately when using these packages. The Windows installer adds a Start menu shortcut and an uninstall entry without needing administrator rights. Keep the portable Windows/Linux application folder intact, including `_internal`. Mac Intel and Linux ARM64 packages are not included.
 
 The Mac build is locally signed without Apple Developer ID notarization. The Windows build does not include an Authenticode signature, so the operating system may show a first-launch publisher warning. Check the download source before allowing the app to run.
 

@@ -18,9 +18,10 @@ Keep the entire video or select just a useful start/end range. For language-awar
 |---|---|---|
 | macOS 13+, Apple Silicon | `MediaKeep-1.0.0-macOS-arm64.dmg` | Open the DMG; drag the app into Applications |
 | Windows 10/11, x64 | [Windows Setup EXE](https://github.com/Choikuidong/MediaKeep/releases/download/v1.0.0/MediaKeep-1.0.0-Windows-x64-Setup-r2.exe) or portable ZIP | Run Setup, then open MediaKeep from the Start menu. For the ZIP, extract everything and open `MediaKeep.exe` inside the folder. |
+| Windows 11 · ARM64 | [Native ARM64 installer](https://github.com/Choikuidong/MediaKeep/releases/download/v1.0.0/MediaKeep-1.0.0-Windows-ARM64-Setup.exe) | Run Setup and open MediaKeep (ARM64) from the Start menu. |
 | Linux x86-64, Ubuntu 22.04+ baseline | `MediaKeep-1.0.0-Linux-x86_64.tar.gz` | Extract; run `./MediaKeep/MediaKeep` in a desktop session |
 
-Windows 11 on ARM can use the x64 setup package through emulation. Keep the portable Windows/Linux application folder intact, including `_internal`. These packages include the media tools; Python is not required to run them. The Mac build is locally signed without Developer ID notarization. The Windows build has no Authenticode signature. OS first-launch warnings may therefore appear.
+Keep the portable Windows/Linux application folder intact, including `_internal`. These packages include the media tools; Python is not required to run them. The Mac build is locally signed without Developer ID notarization. The Windows build has no Authenticode signature. OS first-launch warnings may therefore appear.
 
 This is a new release series. If you previously installed MediaKeep 1.2.x, install 1.0.0 manually once: its version number is lower. Subsequent stable 1.x updates can be checked from the new app.
 
