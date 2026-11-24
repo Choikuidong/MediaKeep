@@ -1,0 +1,51 @@
+name: Attach verified desktop packages
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: Successful Build Windows and Linux run ID
+        required: true
+        type: string
+      tag:
+        description: Existing draft release tag
+        required: true
+        default: v1.0.0
+        type: string
+permissions:
+  actions: read
+  contents: write
+jobs:
+  attach:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify the selected build succeeded
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          RUN_ID: ${{ inputs.run_id }}
+        run: |
+          gh api "repos/$REPO/actions/runs/$RUN_ID" --jq '.conclusion' | grep -x success
+      - uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          run-id: ${{ inputs.run_id }}
+          path: artifacts
+      - name: Attach verified packages and a small screenshot archive
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          TAG: ${{ inputs.tag }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import pathlib,os,subprocess,zipfile
+          root=pathlib.Path('artifacts')
+          files=list(root.rglob('MediaKeep-1.0.0-Windows-x64.zip'))+list(root.rglob('MediaKeep-1.0.0-Linux-x86_64.tar.gz'))
+          assert len(files)==2,files
+          for file in files:subprocess.run(['gh','release','upload',os.environ['TAG'],str(file),'--repo',os.environ['REPO'],'--clobber'],check=True)
+          with zipfile.ZipFile('MediaKeep-1.0.0-screenshots.zip','w',zipfile.ZIP_DEFLATED) as z:
+            for p in root.rglob('desktop-theme-*.png'):
+              name='windows' if 'Windows' in str(p) else 'linux'
+              z.write(p,name+'-'+p.name)
+          subprocess.run(['gh','release','upload',os.environ['TAG'],'MediaKeep-1.0.0-screenshots.zip','--repo',os.environ['REPO'],'--clobber'],check=True)
+          PY

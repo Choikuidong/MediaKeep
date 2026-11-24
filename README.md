@@ -6,6 +6,32 @@
 
 이 저장소는 20개 언어와 macOS·Windows·Linux 지원을 기준으로 **1.0.0부터 새로 시작**합니다. 이전 담아컷 / MediaKeep 1.2.x 사용자는 이번 1.0.0을 직접 설치해 주세요. 기존 앱의 숫자 버전 비교에서는 1.0.0이 낮게 인식됩니다. 새 버전의 업데이트 확인은 1.0.0 이후 릴리스를 대상으로 동작합니다.
 
+[English user guide](docs/README.en.md) · [최신 다운로드](https://github.com/Choikuidong/MediaKeep/releases/latest)
+
+## 실제 프로그램 화면
+
+아래는 1.0.0 앱을 직접 실행해 캡처한 화면입니다. 미디어를 선택하기 전 화면이므로 미리보기 영역은 비어 있습니다.
+
+### macOS · 동영상 다운로드
+
+![MediaKeep macOS 동영상 다운로드 화면](docs/images/macos-video.png)
+
+### macOS · 오디오 추출
+
+![MediaKeep macOS 오디오 추출 화면](docs/images/macos-audio.png)
+
+### 한국어로 전환한 화면
+
+![MediaKeep 한국어 화면](docs/images/macos-korean.png)
+
+### Windows · 실제 실행 화면
+
+![MediaKeep Windows 실행 화면](docs/images/windows-desktop-theme-2.png)
+
+### Linux · 실제 실행 화면
+
+![MediaKeep Linux 실행 화면](docs/images/linux-desktop-theme-2.png)
+
 ## 내 컴퓨터에 맞게 다운로드
 
 [최신 배포 파일과 변경 내용 보기](https://github.com/Choikuidong/MediaKeep/releases/latest)
@@ -142,6 +168,14 @@ sudo apt-get install libegl1 libopengl0 libxcb-cursor0 libxkbcommon-x11-0 libpul
 | Soft Light | 밝은 회색·흰색 배경과 인디고 강조 |
 | Forest Green | 짙은 초록 배경과 민트 강조 |
 
+### 네 가지 테마 실제 화면
+
+| Midnight Blue | Warm Amber |
+|---|---|
+| ![Midnight Blue](docs/images/theme-midnight.png) | ![Warm Amber](docs/images/theme-amber.png) |
+| **Soft Light · 기본** | **Forest Green** |
+| ![Soft Light](docs/images/theme-light.png) | ![Forest Green](docs/images/theme-forest.png) |
+
 ## 운영체제별 화면과 미리보기
 
 macOS는 AppKit 기반 네이티브 앱, Windows·Linux는 Qt 기반 데스크톱 앱입니다. 기능과 저장 형식을 맞췄으며 운영체제에 따라 대화상자·글꼴·재생 컨트롤 모양이 다를 수 있습니다. macOS는 다운로드 중 받은 데이터에서 짧은 무음 샘플을 표시할 수 있고, Windows·Linux는 원본 썸네일과 진행률을 표시하며 저장 후 파일을 앱 안에서 재생할 수 있습니다. 온라인 **Preview original**은 브라우저에서 원본을 엽니다.
@@ -198,6 +232,18 @@ python Desktop/build.py
 ```
 
 Windows·Linux는 GitHub Actions의 **Build Windows and Linux** 작업으로도 생성할 수 있습니다. 각각의 운영체제 러너에서 소스 검사, 실제 변환 검사, 화면 렌더링, 패키징 및 완성된 실행 파일 검사를 수행합니다.
+
+## 배포 전 확인한 항목
+
+| 대상 | 확인 내용 |
+|---|---|
+| macOS Apple Silicon | 20개 언어 × 4개 테마 × 2개 탭의 160개 화면 렌더링과 버튼 위치 검사, MP3·SRT·LRC 실제 변환, 버전 비교·업데이트 파일 검증 |
+| Windows x64 | Windows 러너에서 소스 실행과 패키징 후 EXE 실행 검사, 20개 언어·두 탭·네 테마, 실제 FFmpeg 변환, MP4 자막 포함·미리보기 로딩·취소 검사 |
+| Linux x86-64 | Ubuntu 22.04 러너에서 소스 실행과 패키징 후 실행 파일 검사, 동일한 실제 변환·자막·미리보기·취소 검사 |
+
+[Windows·Linux 빌드와 검사 기록](https://github.com/Choikuidong/MediaKeep/actions/runs/45367826015)
+
+화면 이미지는 앱을 직접 렌더링한 결과입니다. 테스트는 생성한 로컬 미디어를 사용하며, 모든 온라인 영상·배포판·코덱·하드웨어 조합을 검증했다는 뜻은 아닙니다. GitHub 서비스나 원본 사이트의 변경으로 온라인 기능의 동작이 달라질 수 있습니다.
 
 ## 소스 구성
 
