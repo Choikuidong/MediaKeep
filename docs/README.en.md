@@ -17,7 +17,7 @@ Keep the entire video or select just a useful start/end range. For language-awar
 | Platform | File | Start here |
 |---|---|---|
 | macOS 13+, Apple Silicon | `MediaKeep-1.0.0-macOS-arm64.dmg` | Open the DMG; drag the app into Applications |
-| Windows 10/11, x64 | `MediaKeep-1.0.0-Windows-x64.zip` | Extract everything; open `MediaKeep.exe` inside the folder |
+| Windows 10/11, x64 | [Windows Setup EXE](https://github.com/Choikuidong/MediaKeep/releases/download/v1.0.0/MediaKeep-1.0.0-Windows-x64-Setup.exe) or portable ZIP | Run Setup, then open MediaKeep from the Start menu. For the ZIP, extract everything and open `MediaKeep.exe` inside the folder. |
 | Linux x86-64, Ubuntu 22.04+ baseline | `MediaKeep-1.0.0-Linux-x86_64.tar.gz` | Extract; run `./MediaKeep/MediaKeep` in a desktop session |
 
 Keep the Windows/Linux application folder intact, including `_internal`. These packages include the media tools; Python is not required to run them. The Mac build is locally signed without Developer ID notarization. The Windows build has no Authenticode signature. OS first-launch warnings may therefore appear.
@@ -96,7 +96,7 @@ The app checks stable GitHub Releases at launch and daily while it is running. Y
 - **Missing subtitles:** select a source-provided language. Optional MP4 subtitles may need enabling in your player. Look for the separate SRT too.
 - **Download errors:** check the link and network. DRM and private/paid/account/region/age restrictions are not bypassed. Source services can change; check for an app update.
 - **Linux will not start:** use a desktop session and install Qt's system display/audio libraries. On Ubuntu, see the commands in the main README. The application includes Noto fonts for its 20 interface languages. Native OS dialogs still use system fonts.
-- **Windows will not start:** extract all files; do not run only the EXE copied away from `_internal`.
+- **Portable Windows app will not start:** extract all files; do not run only the EXE copied away from `_internal`.
 
 ## Privacy, permissions, and credits
 
