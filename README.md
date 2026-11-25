@@ -8,7 +8,7 @@ MediaKeep is a free desktop app for **macOS, Windows, and Linux**, with **20 int
 
 Choose your destination folder, keep the whole video or just the part you need, and let MediaKeep select the best available quality **up to your chosen limit — 4K by default**. With the language-aware defaults enabled, it also requests available subtitles and prefers dubbed audio matching your selected app language.
 
-[Download MediaKeep 1.0.1](https://github.com/Choikuidong/MediaKeep/releases/latest) · [Step-by-step guide](docs/README.en.md) · [Sponsor development](https://github.com/sponsors/Choikuidong) · [Apple Craft](https://applecraft.kr)
+[Download MediaKeep 1.0.1](https://github.com/Choikuidong/MediaKeep/releases/latest) · [Step-by-step guide](docs/README.en.md) · [Sponsor development](https://github.com/sponsors/Choikuidong) 
 
 ## Watch the 42-second trailer
 
