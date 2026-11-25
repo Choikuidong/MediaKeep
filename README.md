@@ -237,8 +237,6 @@ Download or convert only content you have permission to use. Check the source se
 
 ## Credits and third-party components
 
-Developed by **Choi Kuidong**, **Apple Craft**. [Visit the Apple Craft website](https://applecraft.kr).
-
 Packages include FFmpeg, yt-dlp, and Deno; Windows/Linux also use PySide6/Qt and imageio-ffmpeg. Noto Sans and Noto Sans CJK fonts are included for multilingual display. Their notices and licenses are in `Licenses`. Qt is distributed as replaceable dynamic libraries.
 
 - [Qt/PySide source](https://code.qt.io/pyside/pyside-setup.git)
