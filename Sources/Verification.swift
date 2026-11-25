@@ -14,12 +14,22 @@ if ProcessInfo.processInfo.environment["MEDIAKEEP_DOC_SCREENSHOTS"] == "1" {
 }
 for lang in supportedLanguages.map({ $0.code }) {
  defaults.set(lang,forKey:"appLanguage")
- for theme in 0..<4 {
+ for theme in Palette.titles.indices {
   defaults.set(theme,forKey:"theme");owner.buildInterface()
   precondition(owner.folderButtons.count==9)
   precondition(owner.subtitleCode(owner.videoLanguage)==lang)
   precondition(owner.audioPreference(owner.videoAudio)==languageInfo(lang).audio)
-  precondition(owner.appLanguage.titleOfSelectedItem==languageInfo(lang).name)
+  precondition(owner.appLanguage.superview == nil)
+  if theme == 2 {
+   owner.showSettings()
+   precondition(owner.appLanguage.titleOfSelectedItem == languageInfo(lang).name)
+   precondition(owner.appearancePicker.numberOfItems == 7)
+   let support = owner.settingsWindow!.contentView!.subviews.last!
+   precondition(support.subviews.contains { $0 is NSImageView } == (lang == "ko"))
+   owner.settingsWindow?.close()
+   owner.settingsWindow = nil
+   owner.appLanguage.removeFromSuperview()
+  }
   for (i,option) in supportedLanguages.enumerated() {
    owner.videoLanguage.selectItem(at:i+1);precondition(owner.subtitleCode(owner.videoLanguage)==option.code)
    owner.videoAudio.selectItem(at:i+2);precondition(owner.audioPreference(owner.videoAudio)==option.audio)
@@ -39,7 +49,7 @@ for lang in supportedLanguages.map({ $0.code }) {
 precondition(AppVersion("v1.10.0")!>AppVersion("1.2.0")!)
 precondition(AppVersion("1.2")==AppVersion("1.2.0"))
 precondition(AppVersion("1.3.0-beta")==nil)
-print("PASS: 4 themes × 20 languages × 2 tabs; 9 visible shortcuts and actions; subtitle language follows app; release version comparisons")
+print("PASS: 7 themes × 20 languages × 2 tabs; 9 visible shortcuts and actions; subtitle language follows app; release version comparisons")
 
 }
 

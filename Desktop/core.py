@@ -4,7 +4,7 @@ import json, os, re, sys, shutil, subprocess, tempfile, threading, urllib.parse,
 from dataclasses import dataclass
 from pathlib import Path
 
-VERSION='1.0.0'
+VERSION='1.0.1'
 REPOSITORY='Choikuidong/MediaKeep'
 RESOURCE=Path(getattr(sys,'_MEIPASS',Path(__file__).resolve().parents[1]))/'Resources'
 if not RESOURCE.exists(): RESOURCE=Path(__file__).resolve().parents[1]/'Resources'

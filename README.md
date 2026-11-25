@@ -4,7 +4,7 @@
 
 **Save videos. Extract audio. Keep everything in the right folder.**
 
-MediaKeep is a free desktop app for **macOS, Windows, and Linux**, with **20 interface languages** and four appearance themes.
+MediaKeep is a free desktop app for **macOS, Windows, and Linux**, with **20 interface languages** and seven appearance themes.
 
 Choose your destination folder, keep the whole video or just the part you need, and let MediaKeep select the best available quality **up to your chosen limit — 4K by default**. With the language-aware defaults enabled, it also requests available subtitles and prefers dubbed audio matching your selected app language.
 
@@ -126,13 +126,13 @@ For MP3, switch to **Audio Extraction**, choose a local video or a YouTube link,
 | Dutch | Polish | Turkish | Ukrainian |
 | Vietnamese | Swedish | Czech | Romanian |
 
-English is the default. Change the language at the upper right; your selection is saved locally. Noto fonts are included in Windows/Linux packages for reliable multilingual display.
+English is the default. Change the language in **Settings → App Language**; your selection is saved locally. Noto fonts are included in Windows/Linux packages for reliable multilingual display.
 
 The interface, main task statuses, update prompts, and app-authored errors are localized. Source titles, custom folder names, native OS dialogs, external-tool diagnostics, and release notes are not automatically translated.
 
-## Four appearance themes
+## Seven appearance themes
 
-Choose **Settings → Appearance**. **Soft Light** is the default.
+Choose **Settings → Appearance**. Soft Light is the default. The other choices are Midnight Blue, Warm Amber, Forest Green, Lavender Night, Ocean Teal, and Peach Cream.
 
 | Midnight Blue | Warm Amber |
 |---|---|
@@ -162,7 +162,7 @@ MediaKeep is free to download and use. If it saves you time, you can help fund m
 
 The public sponsor page offers monthly and one-time options. Sponsorship is optional and does not unlock paid features or change the free download. GitHub handles the available payment options and checkout.
 
-You can also use the **Sponsor** button on this repository. Supporting the project is not required to use the app.
+You can also use **Support on GitHub** in the app settings or the **Sponsor** button on this repository. The Korean interface also shows a KakaoPay QR code in Settings. Supporting the project is not required to use the app.
 
 ## Help and troubleshooting
 
@@ -180,7 +180,7 @@ You can also use the **Sponsor** button on this repository. Supporting the proje
 
 | Platform | Checks performed |
 |---|---|
-| macOS Apple Silicon | 160 rendered combinations of 20 languages, four themes, and two tabs; visible action/folder buttons; actual MP3/SRT/LRC conversion; subtitle timing and update-version checks |
+| macOS Apple Silicon | 280 rendered combinations of 20 languages, seven themes, and two tabs; visible action/folder buttons; actual MP3/SRT/LRC conversion; subtitle timing and update-version checks |
 | Windows x64 | Source and frozen EXE checks on a Windows runner; translation glyph coverage; themes and tabs; actual FFmpeg conversion, trimmed MP4 with subtitles, preview loading, cancellation, and automatic file naming |
 | Linux x86-64 | Source and frozen executable checks on Ubuntu 22.04 with the same conversion, subtitle, preview, font, and cancellation checks |
 

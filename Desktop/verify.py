@@ -5,7 +5,8 @@ from PySide6.QtGui import QPixmap,QFont,QRawFont
 from core import *
 
 def run(app):
-    from mediakeep import Window
+    from mediakeep import THEMES, Window
+    from PySide6.QtWidgets import QComboBox, QWidget
     if getattr(sys,'frozen',False):assert deno_path() and os.access(deno_path(),os.X_OK)
     fonts=[QRawFont(str(RESOURCE/'fonts'/name),14) for name in ['NotoSans.ttf','NotoSansCJK-Regular.otf']]
     assert all(f.isValid() for f in fonts),'Bundled fonts could not be loaded'
@@ -38,10 +39,16 @@ def run(app):
     screenshot=Path(os.environ.get('MEDIAKEEP_SCREENSHOTS',tempfile.gettempdir()));screenshot.mkdir(parents=True,exist_ok=True)
     for code in [l['code'] for l in LANGUAGES]:
         window.lang=code;window.translate()
-        assert window.language.currentData()==code and window.sub_language.count()==21 and window.audio_choice.count()==22
+        assert window.sub_language.count()==21 and window.audio_choice.count()==22
+        if code in ('ko','en'):
+            dialog=window.settings_dialog()
+            assert dialog.findChild(QComboBox,'settingsLanguage').currentData()==code
+            assert dialog.findChild(QComboBox,'settingsTheme').count()==7
+            assert dialog.findChild(QWidget,'kakaoSupport').isHidden()==(code!='ko')
+            dialog.deleteLater()
         for video in [True,False]:window.change_tab(video);window.show();app.processEvents();assert len(window.folder_buttons)==9
     window.lang='en';window.translate()
-    for theme in range(4):
+    for theme in range(len(THEMES)):
         window.theme=theme;window.apply_theme();window.change_tab(True);app.processEvents()
         window.grab().save(str(screenshot/f'desktop-theme-{theme}.png'))
     # Real local conversion via packaged FFmpeg, including trimmed subtitles and MP4 embedding.
@@ -83,5 +90,5 @@ def run(app):
         assert not window.work and window.reveal.isEnabled()
         window.player.stop();window.player.setSource(QUrl())
     window.close();app.processEvents()
-    print('PASS: 20 languages; both tabs; four themes; file names; URLs; versions; FFmpeg MP3/SRT/LRC and MP4; cancellation; Qt media source',flush=True)
+    print('PASS: 20 languages; both tabs; seven themes; file names; URLs; versions; FFmpeg MP3/SRT/LRC and MP4; cancellation; Qt media source',flush=True)
     return 0

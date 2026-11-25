@@ -61,7 +61,7 @@ Register up to nine folders using **+ Add location**. Folder pickers allow creat
 
 ## Appearance and preview
 
-**Settings → Appearance** offers Midnight Blue, Warm Amber, Soft Light, and Forest Green. Soft Light is the default.
+**Settings → Appearance** offers Midnight Blue, Warm Amber, Soft Light, Forest Green, Lavender Night, Ocean Teal, and Peach Cream. Soft Light is the default.
 
 Source previews are not promises about a download's completion. On Mac, a short muted video sample may be prepared from incoming data. Windows/Linux show source thumbnails and progress, then play the completed local media. Browser previews open the original source page. Range downloads may fetch the full source before cutting, so their network usage is not limited to the selected duration.
 

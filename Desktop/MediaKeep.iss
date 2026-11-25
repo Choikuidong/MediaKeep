@@ -1,21 +1,29 @@
+#ifndef MediaKeepVersion
+  #define MediaKeepVersion "1.0.0"
+#endif
+
 #ifdef MediaKeepARM64
   #define Product "MediaKeep (ARM64)"
   #define AppKey "AppleCraft.MediaKeep.ARM64"
   #define Architecture "arm64"
   #define MinimumWindows "10.0.22000"
-  #define SetupName "MediaKeep-1.0.0-Windows-ARM64-Setup"
+  #define SetupName "MediaKeep-" + MediaKeepVersion + "-Windows-ARM64-Setup"
 #else
   #define Product "MediaKeep"
   #define AppKey "AppleCraft.MediaKeep"
   #define Architecture "x64compatible"
   #define MinimumWindows "10.0"
-  #define SetupName "MediaKeep-1.0.0-Windows-x64-Setup-r2"
+  #define SetupName "MediaKeep-" + MediaKeepVersion + "-Windows-x64-Setup"
+  #if MediaKeepVersion == "1.0.0"
+    #undef SetupName
+    #define SetupName "MediaKeep-1.0.0-Windows-x64-Setup-r2"
+  #endif
 #endif
 
 [Setup]
 AppId={#AppKey}
 AppName={#Product}
-AppVersion=1.0.0
+AppVersion={#MediaKeepVersion}
 AppPublisher=Apple Craft
 AppPublisherURL=https://applecraft.kr/
 DefaultDirName={localappdata}\Programs\{#Product}

@@ -14,13 +14,17 @@ struct Palette {
     let background: NSColor, card: NSColor, text: NSColor, secondary: NSColor, accent: NSColor, border: NSColor
     let dark: Bool
     static func color(_ hex: UInt32) -> NSColor { NSColor(srgbRed: CGFloat((hex >> 16)&255)/255, green: CGFloat((hex >> 8)&255)/255, blue: CGFloat(hex&255)/255, alpha: 1) }
+    static let titles = [("Midnight Blue","미드나이트 블루"), ("Warm Amber","웜 앰버"), ("Soft Light","소프트 라이트"), ("Forest Green","포레스트 그린"), ("Lavender Night","라벤더 나이트"), ("Ocean Teal","오션 틸"), ("Peach Cream","피치 크림")]
     static func make(_ index: Int) -> Palette {
         let values: [(UInt32,UInt32,UInt32,UInt32,UInt32,UInt32,Bool)] = [
             (0x101c30,0x1b2b42,0xf4f7ff,0xb8c5d9,0x299fff,0x35465d,true),
             (0x221e1b,0x302a25,0xfff8ed,0xcbbfb0,0xffbb37,0x51463b,true),
             (0xf3f4f8,0xffffff,0x192033,0x566176,0x4338ca,0xdce0e9,false),
-            (0x10251e,0x1e352c,0xf3fff8,0xb8cdbf,0x84eba3,0x385647,true)]
-        let c = values[max(0,min(3,index))]
+            (0x10251e,0x1e352c,0xf3fff8,0xb8cdbf,0x84eba3,0x385647,true),
+            (0x1b1726,0x282234,0xeae1f6,0xbdb0ce,0xc9a8ff,0x4a3e59,true),
+            (0x101f24,0x172b30,0xe4f1ef,0xb4cbca,0x68ded0,0x315158,true),
+            (0xf7eee8,0xfff9f5,0x322521,0x715a50,0xa33d32,0xe1cfc4,false)]
+        let c = values[values.indices.contains(index) ? index : 2]
         return Palette(background: color(c.0),card: color(c.1),text: color(c.2),secondary: color(c.3),accent: color(c.4),border: color(c.5),dark:c.6)
     }
 }
@@ -93,8 +97,6 @@ extension App {
         let icon=NSImageView();icon.image=Bundle.main.url(forResource:"MediaKeep",withExtension:"png").flatMap{NSImage(contentsOf:$0)};icon.imageScaling = .scaleProportionallyUpOrDown;place(icon,canvas,24,13,44,44)
         label("MediaKeep","MediaKeep",canvas,78,13,260,26,true)
         label("Save videos. Extract audio.","영상을 저장하고, 소리를 추출하세요.",canvas,80,48,380)
-        popup(appLanguage,supportedLanguages.map{ $0.name },supportedLanguages.firstIndex{ $0.code == selectedLanguage } ?? 0,canvas,790,20,150)
-        appLanguage.target=self;appLanguage.action=#selector(changeAppLanguage)
         button(settingsButton,T("Settings…","설정…"),#selector(showSettings),canvas,948,18,108)
         tabs.setLabel(T("Video Download","동영상 다운로드"),forSegment:0);tabs.setLabel(T("Audio Extraction","오디오 추출"),forSegment:1)
         tabs.font = .systemFont(ofSize:12);tabs.setWidth(215,forSegment:0);tabs.setWidth(215,forSegment:1);tabs.selectedSegment=tab;tabs.target=self;tabs.action=#selector(changeTab);place(tabs,canvas,315,77,450,34)
@@ -173,7 +175,12 @@ extension App {
         return languageInfo(i<=0 ? currentLanguage:supportedLanguages[min(i-2,supportedLanguages.count-1)].code).audio
     }
     var currentLanguage:String {selectedLanguage}
-    @objc func changeAppLanguage() {guard !busy else{return};let i=appLanguage.indexOfSelectedItem;guard supportedLanguages.indices.contains(i) else{return};UserDefaults.standard.set(supportedLanguages[i].code,forKey:"appLanguage"); settingsWindow?.close();settingsWindow=nil;closeAbout();buildInterface()}
+    @objc func changeAppLanguage() {
+        guard !busy, supportedLanguages.indices.contains(appLanguage.indexOfSelectedItem) else { return }
+        UserDefaults.standard.set(supportedLanguages[appLanguage.indexOfSelectedItem].code, forKey: "appLanguage")
+        closeAbout()
+        refreshSettings()
+    }
     func setupMenu() {
         let menu=NSMenu();let item=menu.addItem(withTitle:"MediaKeep",action:nil,keyEquivalent:"");let appMenu=NSMenu();item.submenu=appMenu
         for (title,action,key) in [(T("About MediaKeep","MediaKeep에 관하여"),#selector(showAbout),""),(T("Settings…","설정…"),#selector(showSettings),","),(T("Check for Updates…","업데이트 확인…"),#selector(manualUpdateCheck),"")] {let i=appMenu.addItem(withTitle:title,action:action,keyEquivalent:key);i.target=self}
@@ -182,18 +189,94 @@ extension App {
     @objc func showSettings() {
         guard !busy else{return}
         if let w=settingsWindow {w.makeKeyAndOrderFront(nil);return}
-        let w=InputWindow(contentRect:NSRect(x:0,y:0,width:500,height:310),styleMask:[.titled,.closable],backing:.buffered,defer:false);w.isReleasedWhenClosed=false;w.title=T("MediaKeep Settings","MediaKeep 설정");w.appearance=window.appearance
-        let view=FlippedDocument(frame:NSRect(x:0,y:0,width:500,height:310));w.contentView=view
-        func label(_ text:String,_ y:CGFloat){let v=NSTextField(labelWithString:text);v.frame=NSRect(x:24,y:y,width:450,height:22);view.addSubview(v)}
-        label(T("Appearance","화면 색상"),24)
-        appearancePicker.removeAllItems();appearancePicker.addItems(withTitles:[T("Midnight Blue","미드나이트 블루"),T("Warm Amber","웜 앰버"),T("Soft Light","소프트 라이트"),T("Forest Green","포레스트 그린")]);appearancePicker.selectItem(at:UserDefaults.standard.object(forKey:"theme") as? Int ?? 2);appearancePicker.target=self;appearancePicker.action=#selector(changeTheme);appearancePicker.frame=NSRect(x:24,y:52,width:450,height:30);view.addSubview(appearancePicker)
-        autoUpdate.title=T("Automatically check for updates","자동으로 업데이트 확인");autoUpdate.state=UserDefaults.standard.object(forKey:"automaticUpdates") as? Bool == false ? .off:.on;autoUpdate.target=self;autoUpdate.action=#selector(toggleUpdates);autoUpdate.frame=NSRect(x:24,y:109,width:450,height:26);view.addSubview(autoUpdate)
-        label(T("Checks on launch and daily while the app is running.","앱 실행 시와 실행 중 하루에 한 번 확인합니다."),148)
-        let b=NSButton(title:T("Check for Updates…","업데이트 확인…"),target:self,action:#selector(manualUpdateCheck));b.bezelStyle = .rounded;b.frame=NSRect(x:24,y:191,width:240,height:34);view.addSubview(b)
-        label("GitHub · Choikuidong/MediaKeep",252)
-        settingsWindow=w;w.center();w.makeKeyAndOrderFront(nil)
+        let p = palette
+        let korean = currentLanguage == "ko"
+        let height: CGFloat = korean ? 477 : 453
+        let w = InputWindow(contentRect: NSRect(x:0,y:0,width:510,height:height), styleMask:[.titled,.closable], backing:.buffered, defer:false)
+        w.isReleasedWhenClosed = false
+        w.title = T("MediaKeep Settings","MediaKeep 설정")
+        w.appearance = window.appearance
+        w.backgroundColor = p.background
+        let view = FlippedDocument(frame:NSRect(x:0,y:0,width:510,height:height))
+        w.contentView = view
+
+        func label(_ parent: NSView, _ text: String, _ x: CGFloat, _ y: CGFloat, _ width: CGFloat, _ size: CGFloat = 13, _ color: NSColor? = nil, _ weight: NSFont.Weight = .regular, height: CGFloat = 21) {
+            let field = NSTextField(wrappingLabelWithString: text)
+            field.font = .systemFont(ofSize:size,weight:weight)
+            field.textColor = color ?? p.secondary
+            field.frame = NSRect(x:x,y:y,width:width,height:height)
+            parent.addSubview(field)
+        }
+        func picker(_ control: NSPopUpButton, _ titles: [String], _ index: Int, _ y: CGFloat, _ action: Selector) {
+            control.removeAllItems()
+            control.addItems(withTitles:titles)
+            control.selectItem(at:index)
+            control.target = self
+            control.action = action
+            control.frame = NSRect(x:24,y:y,width:462,height:28)
+            view.addSubview(control)
+        }
+        label(view,T("App language","앱 언어"),24,19,462,14,p.text,.semibold)
+        picker(appLanguage,supportedLanguages.map { $0.name },supportedLanguages.firstIndex { $0.code == currentLanguage } ?? 0,44,#selector(changeAppLanguage))
+        label(view,T("Changes apply immediately across the app.","선택하면 앱 화면에 바로 적용됩니다."),24,78,462,12)
+        label(view,T("Appearance","화면 색상"),24,109,462,14,p.text,.semibold)
+        let theme = UserDefaults.standard.object(forKey:"theme") as? Int ?? 2
+        picker(appearancePicker,Palette.titles.map { T($0.0,$0.1) },Palette.titles.indices.contains(theme) ? theme : 2,133,#selector(changeTheme))
+        autoUpdate.title = T("Automatically check for updates","자동으로 업데이트 확인")
+        autoUpdate.state = UserDefaults.standard.object(forKey:"automaticUpdates") as? Bool == false ? .off : .on
+        autoUpdate.target = self
+        autoUpdate.action = #selector(toggleUpdates)
+        autoUpdate.frame = NSRect(x:24,y:178,width:462,height:26)
+        view.addSubview(autoUpdate)
+        label(view,T("Checks on launch and daily while the app is running.","앱 실행 시와 실행 중 하루에 한 번 확인합니다."),24,208,462,12)
+        let update = NSButton(title:T("Check for Updates…","업데이트 확인…"),target:self,action:#selector(manualUpdateCheck))
+        update.bezelStyle = .rounded
+        update.frame = NSRect(x:24,y:232,width:240,height:32)
+        view.addSubview(update)
+        label(view,"GitHub · Choikuidong/MediaKeep",24,274,462,12)
+
+        let support = FlippedDocument(frame:NSRect(x:24,y:308,width:462,height:height-328))
+        support.wantsLayer = true
+        support.layer?.backgroundColor = p.card.cgColor
+        support.layer?.borderColor = p.border.cgColor
+        support.layer?.borderWidth = 1
+        support.layer?.cornerRadius = 12
+        view.addSubview(support)
+        let textWidth: CGFloat = korean ? 294 : 420
+        label(support,T("Support MediaKeep","MediaKeep 개발을 응원해 주세요"),16,15,textWidth,16,p.accent,.semibold)
+        label(support,T("If MediaKeep saves you time, you can help fund future updates.","도움이 되셨다면 다음 업데이트를 응원해 주세요."),16,43,textWidth,12,height:32)
+        label(support,T("MediaKeep is free to use, with or without sponsorship.","후원은 선택이며, 앱은 누구나 무료로 이용하실 수 있습니다."),16,73,textWidth,12,height:30)
+        let sponsor = NSButton(title:T("Support on GitHub ↗","GitHub에서 후원하기 ↗"),target:self,action:#selector(openSponsors))
+        sponsor.bezelStyle = .rounded
+        sponsor.frame = NSRect(x:16,y:103,width:240,height:30)
+        support.addSubview(sponsor)
+        if korean, let url = Bundle.main.url(forResource:"KakaoPay",withExtension:"png"), let image = NSImage(contentsOf:url) {
+            let qr = NSImageView(frame:NSRect(x:329,y:10,width:116,height:116))
+            qr.image = image
+            qr.imageScaling = .scaleProportionallyUpOrDown
+            qr.setAccessibilityLabel("카카오페이 후원 QR 코드")
+            support.addSubview(qr)
+            label(support,"카카오페이로 후원하기",329,128,117,11,p.secondary,.medium)
+        }
+        settingsWindow = w
+        w.center()
+        w.makeKeyAndOrderFront(nil)
     }
-    @objc func changeTheme(){guard !busy else{return};UserDefaults.standard.set(appearancePicker.indexOfSelectedItem,forKey:"theme");settingsWindow?.close();settingsWindow=nil;buildInterface();showSettings()}
+    @objc func openSponsors() {
+        guard let url = URL(string:"https://github.com/sponsors/Choikuidong") else { return }
+        NSWorkspace.shared.open(url)
+    }
+    private func refreshSettings() {
+        settingsWindow?.close()
+        settingsWindow = nil
+        buildInterface()
+        showSettings()
+    }
+    @objc func changeTheme() {
+        guard !busy, Palette.titles.indices.contains(appearancePicker.indexOfSelectedItem) else { return }
+        UserDefaults.standard.set(appearancePicker.indexOfSelectedItem,forKey:"theme")
+        refreshSettings()
+    }
     @objc func toggleUpdates(){UserDefaults.standard.set(autoUpdate.state == .on,forKey:"automaticUpdates")}
 }
 extension String {var nilIfEmpty:String? {isEmpty ? nil:self}}

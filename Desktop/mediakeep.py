@@ -9,7 +9,29 @@ from PySide6.QtMultimedia import QMediaPlayer,QAudioOutput
 from PySide6.QtMultimediaWidgets import QVideoWidget
 from core import VERSION,RESOURCE,LANGUAGES,Engine,Request,Cancelled,tr,parse_time,clean_name,valid_link,release_update,language
 
-THEMES=[('Midnight Blue','#101c30','#1b2b42','#f4f7ff','#b8c5d9','#299fff','#35465d'),('Warm Amber','#221e1b','#302a25','#fff8ed','#cbbfb0','#ffbb37','#51463b'),('Soft Light','#f3f4f8','#ffffff','#192033','#566176','#4338ca','#dce0e9'),('Forest Green','#10251e','#1e352c','#f3fff8','#b8cdbf','#84eba3','#385647')]
+THEMES = [
+    ('Midnight Blue','#101c30','#1b2b42','#f4f7ff','#b8c5d9','#299fff','#35465d'),
+    ('Warm Amber','#221e1b','#302a25','#fff8ed','#cbbfb0','#ffbb37','#51463b'),
+    ('Soft Light','#f3f4f8','#ffffff','#192033','#566176','#4338ca','#dce0e9'),
+    ('Forest Green','#10251e','#1e352c','#f3fff8','#b8cdbf','#84eba3','#385647'),
+    ('Lavender Night','#1b1726','#282234','#eae1f6','#bdb0ce','#c9a8ff','#4a3e59'),
+    ('Ocean Teal','#101f24','#172b30','#e4f1ef','#b4cbca','#68ded0','#315158'),
+    ('Peach Cream','#f7eee8','#fff9f5','#322521','#715a50','#a33d32','#e1cfc4'),
+]
+
+SETTINGS_KOREAN = {
+    'Interface language': '앱 언어',
+    'Lavender Night': '라벤더 나이트',
+    'Ocean Teal': '오션 틸',
+    'Peach Cream': '피치 크림',
+    'Changes apply immediately across the app.': '선택하면 앱 화면에 바로 적용됩니다.',
+    'Support MediaKeep': 'MediaKeep 개발을 응원해 주세요',
+    'If MediaKeep saves you time, you can help fund future updates.': '도움이 되셨다면 다음 업데이트를 응원해 주세요.',
+    'MediaKeep is free to use, with or without sponsorship.': '후원은 선택이며, 앱은 누구나 무료로 이용하실 수 있습니다.',
+    'Support on GitHub ↗': 'GitHub에서 후원하기 ↗',
+}
+SPONSORS_URL = 'https://github.com/sponsors/Choikuidong'
+
 
 class Worker(QObject):
     event=Signal(str,object);done=Signal(object);error=Signal(str);finished=Signal()
@@ -45,7 +67,8 @@ class FolderButton(QPushButton):
 class Window(QMainWindow):
     def __init__(self,testing=False):
         super().__init__();self.testing=testing;self.settings=QSettings('AppleCraft','MediaKeep')
-        self.lang=self.settings.value('language','en');self.theme=int(self.settings.value('theme',2));self.bindings=[];self.work=None;self.thread=None;self.update_thread=None;self.update_worker=None;self.closing=False
+        self.lang=self.settings.value('language','en');self.theme=self.settings.value('theme',2,type=int)
+        self.theme=self.theme if 0<=self.theme<len(THEMES) else 2;self.bindings=[];self.work=None;self.thread=None;self.update_thread=None;self.update_worker=None;self.closing=False
         self.destination=Path(self.settings.value('destination',str(Path.home()/'Downloads')))
         self.folders=json.loads(self.settings.value('folders','[]'))[:9]
         if not self.folders:self.folders=[{'path':str(self.destination),'name':''}]
@@ -74,8 +97,7 @@ class Window(QMainWindow):
     def build(self):
         central=QWidget();self.setCentralWidget(central);root=QVBoxLayout(central);root.setContentsMargins(20,15,20,12);root.setSpacing(12)
         icon=QLabel();icon.setPixmap(QPixmap(str(RESOURCE/'MediaKeep.png')).scaled(44,44,Qt.KeepAspectRatio,Qt.SmoothTransformation));brand=QLabel('MediaKeep');brand.setObjectName('brand')
-        self.language=self.combo([(x['name'],x['code']) for x in LANGUAGES]);self.language.setMinimumWidth(150);self.language.currentIndexChanged.connect(self.change_language)
-        top=self.row(icon,brand);top.addStretch();top.addWidget(self.language);self.settings_button=self.button('Settings…',self.show_settings);top.addWidget(self.settings_button);root.addLayout(top)
+        top=self.row(icon,brand);top.addStretch();self.settings_button=self.button('Settings…',self.show_settings);top.addWidget(self.settings_button);root.addLayout(top)
         tabs=QHBoxLayout();tabs.addStretch();self.video_tab=self.button('Video Download',lambda:self.change_tab(True));self.audio_tab=self.button('Audio Extraction',lambda:self.change_tab(False))
         self.nav=QButtonGroup(self);self.nav.setExclusive(True)
         for b in (self.video_tab,self.audio_tab):b.setCheckable(True);b.setMinimumWidth(220);self.nav.addButton(b);tabs.addWidget(b)
@@ -118,13 +140,15 @@ class Window(QMainWindow):
             elif kind=='title':widget.setTitle(text)
             else:widget.setText(text)
             widget.setToolTip(text)
-        self.language.blockSignals(True);self.language.setCurrentIndex(max(0,self.language.findData(self.lang)));self.language.blockSignals(False)
         self.mode.setItemText(0,self.t('Local video'));self.mode.setItemText(1,self.t('YouTube link'));self.sub_language.setItemText(0,self.t('App language'));self.audio_choice.setItemText(0,self.t('App language · Prefer dub'));self.audio_choice.setItemText(1,self.t('Original audio'))
         self.settings_action.setText(self.t('Settings…'));self.update_action.setText(self.t('Check for Updates…'));self.about_action.setText(self.t('About MediaKeep'))
         self.change_tab(self.video_tab.isChecked());self.refresh_folders()
-    def change_language(self):
-        self.lang=self.language.currentData() or 'en';self.settings.setValue('language',self.lang)
-        if self.bindings:self.translate()
+    def change_language(self, code):
+        if not code or self.lang == code:
+            return
+        self.lang = code
+        self.settings.setValue('language', code)
+        self.translate()
     def change_tab(self,video):
         self.video_tab.setChecked(video);self.audio_tab.setChecked(not video);self.mode.setVisible(not video);self.quality.setVisible(video);self.bitrate.setVisible(not video);self.caption_row.setVisible(not video)
         self.settings_group.setTitle(self.t('02  Video settings' if video else '02  Audio settings'));self.quality_label.setText(self.t('Quality' if video else 'MP3 quality'));self.save_button.setText(self.t('Download MP4' if video else 'Extract MP3'));self.source_mode()
@@ -174,7 +198,7 @@ class Window(QMainWindow):
             if ok:self.folders[i]['name']=value.strip()
         self.refresh_folders()
     def busy(self,value):
-        for w in [self.language,self.settings_button,self.video_tab,self.audio_tab,self.mode,self.choose_video,self.link,self.filename,self.quality,self.bitrate,self.subs,self.sub_language,self.audio_choice,self.entire,self.save_button,self.inspect_button]+self.folder_buttons:w.setEnabled(not value)
+        for w in [self.settings_button,self.video_tab,self.audio_tab,self.mode,self.choose_video,self.link,self.filename,self.quality,self.bitrate,self.subs,self.sub_language,self.audio_choice,self.entire,self.save_button,self.inspect_button]+self.folder_buttons:w.setEnabled(not value)
         self.caption_row.setEnabled(not value);self.cancel.setVisible(value)
         if value:self.progress.setRange(0,0)
         else:self.progress.setRange(0,100);self.range_changed()
@@ -246,13 +270,121 @@ class Window(QMainWindow):
             else:QDesktopServices.openUrl(QUrl.fromLocalFile(str(self.last_output.parent)))
     def apply_theme(self):
         _,bg,card,text,muted,accent,border=THEMES[self.theme]
-        ink='#ffffff' if self.theme==2 else '#102030'
-        self.setStyleSheet(f'''QMainWindow,QDialog{{background:{bg};color:{text}}} QWidget{{color:{text};font-size:12px}} QLabel#brand{{font-size:26px;font-weight:700;color:{accent}}} QGroupBox{{background:{card};border:1px solid {border};border-radius:12px;margin-top:9px;font-weight:600}} QGroupBox::title{{subcontrol-origin:margin;left:16px;padding:0 5px;color:{accent}}} QPushButton,QComboBox,QLineEdit{{background:{card};border:1px solid {border};border-radius:6px;padding:6px}} QPushButton:hover{{border-color:{accent}}} QPushButton:checked{{background:{accent};color:{ink}}} QPushButton#primary{{background:{accent};color:{ink};font-size:15px;font-weight:600}} QPushButton:disabled,QLineEdit:disabled{{color:{muted};background:{bg}}} QLabel#hint{{color:{muted};font-size:11px}} QLabel#thumbnail{{background:#11161b;border-radius:7px}} QProgressBar{{border:1px solid {border};border-radius:4px;text-align:center;min-height:15px}} QProgressBar::chunk{{background:{accent};border-radius:3px}} QComboBox QAbstractItemView{{background:{card};color:{text};selection-background-color:{accent}}}''')
+        ink='#ffffff' if self.theme in (2,6) else '#102030'
+        self.setStyleSheet(f'''QMainWindow,QDialog{{background:{bg};color:{text}}} QWidget{{color:{text};font-size:12px}} QLabel#brand{{font-size:26px;font-weight:700;color:{accent}}} QGroupBox{{background:{card};border:1px solid {border};border-radius:12px;margin-top:9px;font-weight:600}} QGroupBox::title{{subcontrol-origin:margin;left:16px;padding:0 5px;color:{accent}}} QPushButton,QComboBox,QLineEdit{{background:{card};border:1px solid {border};border-radius:6px;padding:6px}} QPushButton:hover{{border-color:{accent}}} QPushButton:checked{{background:{accent};color:{ink}}} QPushButton#primary{{background:{accent};color:{ink};font-size:15px;font-weight:600}} QPushButton:disabled,QLineEdit:disabled{{color:{muted};background:{bg}}} QLabel#hint{{color:{muted};font-size:11px}} QLabel#supportTitle{{color:{accent};font-size:16px;font-weight:700}} QLabel#thumbnail{{background:#11161b;border-radius:7px}} QProgressBar{{border:1px solid {border};border-radius:4px;text-align:center;min-height:15px}} QProgressBar::chunk{{background:{accent};border-radius:3px}} QComboBox QAbstractItemView{{background:{card};color:{text};selection-background-color:{accent}}}''')
+    def settings_dialog(self):
+        dialog = QDialog(self)
+        dialog.setMinimumWidth(510)
+        layout = QVBoxLayout(dialog)
+        layout.setContentsMargins(24, 21, 24, 21)
+
+        language_label = QLabel()
+        languages = self.combo([(item['name'], item['code']) for item in LANGUAGES])
+        languages.setObjectName('settingsLanguage')
+        languages.setCurrentIndex(max(0, languages.findData(self.lang)))
+        language_label.setBuddy(languages)
+        layout.addWidget(language_label)
+        layout.addWidget(languages)
+        language_hint = QLabel()
+        language_hint.setObjectName('hint')
+        layout.addWidget(language_hint)
+
+        theme_label = QLabel()
+        themes = self.combo([(name, i) for i, (name, *_) in enumerate(THEMES)])
+        themes.setObjectName('settingsTheme')
+        themes.setCurrentIndex(self.theme)
+        theme_label.setBuddy(themes)
+        layout.addWidget(theme_label)
+        layout.addWidget(themes)
+        layout.addSpacing(8)
+
+        automatic = QCheckBox()
+        automatic.setChecked(self.settings.value('automaticUpdates', True, type=bool))
+        automatic.toggled.connect(lambda checked: self.settings.setValue('automaticUpdates', checked))
+        layout.addWidget(automatic)
+        update_hint = QLabel()
+        update_hint.setWordWrap(True)
+        update_hint.setObjectName('hint')
+        layout.addWidget(update_hint)
+        update = QPushButton()
+        update.clicked.connect(lambda: self.check_update(True))
+        layout.addWidget(update, alignment=Qt.AlignLeft)
+        layout.addWidget(QLabel('GitHub · Choikuidong/MediaKeep'))
+        layout.addSpacing(8)
+
+        support = QGroupBox()
+        support_layout = QHBoxLayout(support)
+        copy = QVBoxLayout()
+        support_layout.addLayout(copy, 1)
+        heading = QLabel()
+        heading.setObjectName('supportTitle')
+        pitch = QLabel()
+        free = QLabel()
+        free.setObjectName('hint')
+        for label in (heading, pitch, free):
+            label.setWordWrap(True)
+            copy.addWidget(label)
+        sponsor = QPushButton()
+        sponsor.setObjectName('primary')
+        sponsor.clicked.connect(lambda: QDesktopServices.openUrl(QUrl(SPONSORS_URL)))
+        copy.addWidget(sponsor, alignment=Qt.AlignLeft)
+        copy.addStretch()
+        kakao = QWidget()
+        kakao.setObjectName('kakaoSupport')
+        qr_layout = QVBoxLayout(kakao)
+        qr_layout.setContentsMargins(0, 0, 0, 0)
+        qr = QLabel()
+        qr.setPixmap(QPixmap(str(RESOURCE/'KakaoPay.png')).scaled(122, 122, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+        qr.setAccessibleName('카카오페이 후원 QR 코드')
+        qr_layout.addWidget(qr, alignment=Qt.AlignHCenter)
+        qr_layout.addWidget(QLabel('카카오페이로 후원하기'), alignment=Qt.AlignHCenter)
+        support_layout.addWidget(kakao, alignment=Qt.AlignTop)
+        layout.addWidget(support)
+
+        def localize():
+            def setting_text(key):
+                return SETTINGS_KOREAN.get(key, self.t(key)) if self.lang == 'ko' else self.t(key)
+
+            dialog.setWindowTitle(setting_text('MediaKeep Settings'))
+            for widget, key in (
+                (language_label, 'Interface language'),
+                (language_hint, 'Changes apply immediately across the app.'),
+                (theme_label, 'Appearance'),
+                (automatic, 'Automatically check for updates'),
+                (update_hint, 'Checks on launch and daily while the app is running.'),
+                (update, 'Check for Updates…'),
+                (heading, 'Support MediaKeep'),
+                (pitch, 'If MediaKeep saves you time, you can help fund future updates.'),
+                (free, 'MediaKeep is free to use, with or without sponsorship.'),
+                (sponsor, 'Support on GitHub ↗'),
+            ):
+                widget.setText(setting_text(key))
+            for i, (name, *_) in enumerate(THEMES):
+                themes.setItemText(i, setting_text(name))
+            kakao.setVisible(self.lang == 'ko')
+            dialog.adjustSize()
+
+        def language_changed():
+            self.change_language(languages.currentData())
+            localize()
+
+        def theme_changed(index):
+            self.theme = index
+            self.settings.setValue('theme', index)
+            self.apply_theme()
+
+        languages.currentIndexChanged.connect(language_changed)
+        themes.currentIndexChanged.connect(theme_changed)
+        localize()
+        return dialog
+
     def show_settings(self):
-        if self.work:return
-        d=QDialog(self);d.setWindowTitle(self.t('MediaKeep Settings'));d.setMinimumWidth(480);layout=QVBoxLayout(d);layout.addWidget(QLabel(self.t('Appearance')));themes=self.combo([(self.t(x[0]),i) for i,x in enumerate(THEMES)]);themes.setCurrentIndex(self.theme);layout.addWidget(themes)
-        automatic=QCheckBox(self.t('Automatically check for updates'));automatic.setChecked(self.settings.value('automaticUpdates',True,type=bool));layout.addWidget(automatic);hint=QLabel(self.t('Checks on launch and daily while the app is running.'));hint.setWordWrap(True);layout.addWidget(hint);layout.addWidget(self.button('Check for Updates…',lambda:self.check_update(True)));buttons=QDialogButtonBox(QDialogButtonBox.Ok|QDialogButtonBox.Cancel);buttons.accepted.connect(d.accept);buttons.rejected.connect(d.reject);layout.addWidget(buttons)
-        if d.exec():self.theme=themes.currentData();self.settings.setValue('theme',self.theme);self.settings.setValue('automaticUpdates',automatic.isChecked());self.apply_theme()
+        if self.work:
+            return
+        dialog = self.settings_dialog()
+        dialog.exec()
+        dialog.deleteLater()
+
     def check_update(self,manual=False):
         if self.update_thread or self.work:return
         if not manual and (not self.settings.value('automaticUpdates',True,type=bool) or time.time()-float(self.settings.value('lastUpdateCheck',0))<86400):return

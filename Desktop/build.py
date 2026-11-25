@@ -1,6 +1,7 @@
 """Build on the target OS; never cross-label one platform's executable as another."""
 import os,sys,hashlib,json,platform,subprocess,urllib.request,zipfile,shutil,tarfile
 from pathlib import Path
+from core import VERSION
 root=Path(__file__).resolve().parents[1]
 os.chdir(root)
 assets={
@@ -34,14 +35,14 @@ for package in ['PySide6','shiboken6','imageio-ffmpeg','yt-dlp']:
  for item in meta.files or []:
   if 'license' in str(item).lower() and meta.locate_file(item).is_file():
    shutil.copy2(meta.locate_file(item),target/Path(item).name)
-(dist/'build-info.json').write_text(json.dumps({'version':'1.0.0','os':sys.platform,'architecture':platform.machine(),'python':platform.python_version()},indent=2))
+(dist/'build-info.json').write_text(json.dumps({'version':VERSION,'os':sys.platform,'architecture':platform.machine(),'python':platform.python_version()},indent=2))
 output=root/'build';output.mkdir(exist_ok=True)
 if sys.platform=='win32':
- filename=f'MediaKeep-1.0.0-Windows-{"ARM64" if windows_arm else "x64"}.zip'
+ filename=f'MediaKeep-{VERSION}-Windows-{"ARM64" if windows_arm else "x64"}.zip'
  with zipfile.ZipFile(output/filename,'w',zipfile.ZIP_DEFLATED) as z:
   for path in dist.rglob('*'):
    if path.is_file():z.write(path,path.relative_to(dist.parent))
 else:
- filename='MediaKeep-1.0.0-Linux-x86_64.tar.gz'
+ filename=f'MediaKeep-{VERSION}-Linux-x86_64.tar.gz'
  with tarfile.open(output/filename,'w:gz') as z:z.add(dist,arcname='MediaKeep')
 print(output/filename)
