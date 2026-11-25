@@ -1,14 +1,14 @@
-MediaKeep 1.0.0 — 20 languages — Apple Craft
+MediaKeep 1.0.1 — 20 languages — Apple Craft
 
 macOS 13+, Apple Silicon: Quit the old app, open the DMG, drag MediaKeep.app into Applications.
-Windows 10/11 x64: Extract ALL files from the ZIP. Open MediaKeep/MediaKeep.exe. Keep _internal next to the executable.
+Windows 10/11 x64 and Windows 11 ARM64: Run the matching Setup EXE and open MediaKeep from the Start menu. To use a portable ZIP, extract all files and keep _internal next to MediaKeep.exe.
 Linux x86-64 (Ubuntu 22.04+ baseline): Extract the archive, then run ./MediaKeep/MediaKeep from a desktop session.
 
-The interface starts in English. Choose from 20 languages at the upper right. Settings > Appearance offers four themes.
+The interface starts in English. Choose from 20 languages in Settings > App Language. Settings > Appearance offers seven themes.
 Choose Video Download or Audio Extraction, select a source, quality, subtitles/audio and save folder, then start.
 Only source-provided subtitles and dubbed audio are used. MediaKeep does not generate AI translations or voice dubbing.
 
-This is a new version series starting at 1.0.0. Users of the old 1.2.x series must install 1.0.0 manually. New updates after 1.0.0 can be checked from the app menu.
+Users of the legacy 1.2.x series must install the current release manually once. Subsequent updates can be checked from the app menu.
 The Mac build is locally signed without Apple notarization. The Windows build is unsigned. Verify the download source before allowing the application to run.
 
 Full illustrated installation and user guide:

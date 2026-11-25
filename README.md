@@ -8,7 +8,7 @@ MediaKeep is a free desktop app for **macOS, Windows, and Linux**, with **20 int
 
 Choose your destination folder, keep the whole video or just the part you need, and let MediaKeep select the best available quality **up to your chosen limit — 4K by default**. With the language-aware defaults enabled, it also requests available subtitles and prefers dubbed audio matching your selected app language.
 
-[Download MediaKeep 1.0.0](https://github.com/Choikuidong/MediaKeep/releases/latest) · [Step-by-step guide](docs/README.en.md) · [Sponsor development](https://github.com/sponsors/Choikuidong) · [Apple Craft](https://applecraft.kr)
+[Download MediaKeep 1.0.1](https://github.com/Choikuidong/MediaKeep/releases/latest) · [Step-by-step guide](docs/README.en.md) · [Sponsor development](https://github.com/sponsors/Choikuidong) · [Apple Craft](https://applecraft.kr)
 
 ## Watch the 42-second trailer
 
@@ -59,18 +59,18 @@ You can override subtitle and audio languages separately. **MediaKeep does not u
 
 | Your computer | Download | How to start |
 |---|---|---|
-| **macOS 13+ · Apple Silicon / M1 or later** | [Mac DMG](https://github.com/Choikuidong/MediaKeep/releases/download/v1.0.0/MediaKeep-1.0.0-macOS-arm64.dmg) | Open the DMG and drag MediaKeep into Applications. |
-| **Windows 10/11 · x64** | [Windows installer](https://github.com/Choikuidong/MediaKeep/releases/download/v1.0.0/MediaKeep-1.0.0-Windows-x64-Setup-r2.exe) · [Portable ZIP](https://github.com/Choikuidong/MediaKeep/releases/download/v1.0.0/MediaKeep-1.0.0-Windows-x64.zip) | Run Setup and open MediaKeep from the Start menu. For the portable ZIP, extract all files first. |
-| Windows 11 · ARM64 | [Native ARM64 installer](https://github.com/Choikuidong/MediaKeep/releases/download/v1.0.0/MediaKeep-1.0.0-Windows-ARM64-Setup.exe) | Run Setup and open MediaKeep (ARM64) from the Start menu. |
-| **Linux · x86-64 · Ubuntu 22.04+ baseline** | [Linux archive](https://github.com/Choikuidong/MediaKeep/releases/download/v1.0.0/MediaKeep-1.0.0-Linux-x86_64.tar.gz) | Extract and run `./MediaKeep/MediaKeep` in a desktop session. |
+| **macOS 13+ · Apple Silicon / M1 or later** | [Mac DMG](https://github.com/Choikuidong/MediaKeep/releases/download/v1.0.1/MediaKeep-1.0.1-macOS-arm64.dmg) | Open the DMG and drag MediaKeep into Applications. |
+| **Windows 10/11 · x64** | [Windows installer](https://github.com/Choikuidong/MediaKeep/releases/download/v1.0.1/MediaKeep-1.0.1-Windows-x64-Setup.exe) · [Portable ZIP](https://github.com/Choikuidong/MediaKeep/releases/download/v1.0.1/MediaKeep-1.0.1-Windows-x64.zip) | Run Setup and open MediaKeep from the Start menu. For the portable ZIP, extract all files first. |
+| Windows 11 · ARM64 | [Native ARM64 installer](https://github.com/Choikuidong/MediaKeep/releases/download/v1.0.1/MediaKeep-1.0.1-Windows-ARM64-Setup.exe) | Run Setup and open MediaKeep (ARM64) from the Start menu. |
+| **Linux · x86-64 · Ubuntu 22.04+ baseline** | [Linux archive](https://github.com/Choikuidong/MediaKeep/releases/download/v1.0.1/MediaKeep-1.0.1-Linux-x86_64.tar.gz) | Extract and run `./MediaKeep/MediaKeep` in a desktop session. |
 
-[All release files and notes](https://github.com/Choikuidong/MediaKeep/releases/latest) · [Source archive](https://github.com/Choikuidong/MediaKeep/releases/download/v1.0.0/MediaKeep-1.0.0-source.zip) · [SHA-256 checksums](https://github.com/Choikuidong/MediaKeep/releases/download/v1.0.0/SHA256SUMS.txt) · [Windows installer checksum](https://github.com/Choikuidong/MediaKeep/releases/download/v1.0.0/MediaKeep-1.0.0-Windows-x64-Setup-r2.exe.sha256)
+[All release files and notes](https://github.com/Choikuidong/MediaKeep/releases/latest) · [Source archive](https://github.com/Choikuidong/MediaKeep/releases/download/v1.0.1/MediaKeep-1.0.1-source.zip) · [SHA-256 checksums](https://github.com/Choikuidong/MediaKeep/releases/download/v1.0.1/SHA256SUMS.txt)
 
 Python and the media tools do not need to be installed separately when using these packages. The Windows installer adds a Start menu shortcut and an uninstall entry without needing administrator rights. Keep the portable Windows/Linux application folder intact, including `_internal`. Mac Intel and Linux ARM64 packages are not included.
 
 The Mac build is locally signed without Apple Developer ID notarization. The Windows build does not include an Authenticode signature, so the operating system may show a first-launch publisher warning. Check the download source before allowing the app to run.
 
-**Upgrading from the old 1.2.x series?** This release starts a new series at 1.0.0. Install 1.0.0 manually once; its numeric version is lower than 1.2.x. Subsequent updates can be checked from the new app.
+**Upgrading from the old 1.2.x series?** Install the current release manually once. Its numeric version is lower than the legacy 1.2.x series. Subsequent updates can be checked from the new app.
 
 ## What you can save
 
