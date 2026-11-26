@@ -4,9 +4,11 @@
 
 [English](README.md) · [日本語](docs/README.ja.md) · [한국어](docs/README.ko.md) · [简体中文](docs/README.zh-Hans.md) · [Español](docs/README.es.md) · [Français](docs/README.fr.md) · [Deutsch](docs/README.de.md) · [Português (Brasil)](docs/README.pt-BR.md)
 
-**Save videos. Extract audio. Keep everything in the right folder.**
+**Download YouTube videos. Save a clip. Extract MP3 audio.**
 
 MediaKeep is a free desktop app for **macOS, Windows, and Linux**, with **20 interface languages** and seven appearance themes.
+
+**YouTube downloads.** Save a full YouTube video or just a selected time range as MP4. For music or other audio, extract the sound from a YouTube link and save it as MP3. Use MediaKeep with content you have permission to download or convert.
 
 Choose your destination folder, keep the whole video or just the part you need, and let MediaKeep select the best available quality **up to your chosen limit — 4K by default**. With the language-aware defaults enabled, it also requests available subtitles and prefers dubbed audio matching your selected app language.
 

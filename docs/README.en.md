@@ -1,5 +1,7 @@
 # MediaKeep 1.0.1 — user guide
 
+**YouTube downloads.** Save a full YouTube video or just a selected time range as MP4. For music or other audio, extract the sound from a YouTube link and save it as MP3. Use MediaKeep with content you have permission to download or convert.
+
 [Project overview](../README.md) · [Downloads](https://github.com/Choikuidong/MediaKeep/releases/latest) · [Apple Craft](https://applecraft.kr)
 
 **Save videos. Extract audio. Keep the parts you want.**

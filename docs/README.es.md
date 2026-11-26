@@ -6,6 +6,8 @@
 
 MediaKeep es una aplicación de escritorio gratuita para macOS, Windows y Linux. Guarda la parte de un tutorial que quieres repasar o extrae el audio de una entrevista propia. La interfaz está disponible en 20 idiomas, incluido el español, y ofrece siete temas.
 
+**Descargas de YouTube.** Guarda el vídeo completo o un fragmento como MP4. También puedes guardar solo el audio, como música, en formato MP3 desde un enlace de YouTube.
+
 [Vídeo promocional en inglés](https://youtu.be/n7L9ymqGF9I)
 
 ## Qué puedes hacer

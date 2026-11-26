@@ -6,6 +6,8 @@
 
 MediaKeep est une application de bureau gratuite pour macOS, Windows et Linux. Gardez un passage d’un tutoriel ou récupérez le son d’un entretien que vous avez filmé. L’interface est disponible en 20 langues, dont le français, et propose sept thèmes.
 
+**Téléchargement depuis YouTube.** Enregistrez la vidéo entière ou un extrait en MP4. Vous pouvez aussi enregistrer uniquement le son, par exemple la musique, en MP3 depuis un lien YouTube.
+
 [Bande-annonce en anglais](https://youtu.be/n7L9ymqGF9I)
 
 ## Fonctionnalités

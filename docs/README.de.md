@@ -6,6 +6,8 @@
 
 MediaKeep ist eine kostenlose Desktop-App für macOS, Windows und Linux. Speichern Sie einen Abschnitt aus einem Tutorial oder extrahieren Sie den Ton aus einem selbst aufgenommenen Interview. Es gibt 20 Oberflächensprachen, darunter Deutsch, und sieben Designs.
 
+**YouTube-Downloads.** Speichern Sie das ganze Video oder einen ausgewählten Ausschnitt als MP4. Auch die Tonspur, etwa Musik, lässt sich über einen YouTube-Link als MP3 speichern.
+
 [Englisches Vorstellungsvideo](https://youtu.be/n7L9ymqGF9I)
 
 ## Funktionen

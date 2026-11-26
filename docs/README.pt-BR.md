@@ -6,6 +6,8 @@
 
 O MediaKeep é um aplicativo de desktop gratuito para macOS, Windows e Linux. Guarde o trecho de um tutorial que deseja rever ou extraia o áudio de uma entrevista que você gravou. São 20 idiomas de interface, incluindo português do Brasil, e sete temas.
 
+**Downloads do YouTube.** Salve o vídeo completo ou um trecho selecionado em MP4. Você também pode usar um link do YouTube para salvar só o áudio, como música, em MP3.
+
 [Vídeo de apresentação em inglês](https://youtu.be/n7L9ymqGF9I)
 
 ## O que o aplicativo faz

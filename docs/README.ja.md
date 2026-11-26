@@ -6,6 +6,8 @@
 
 MediaKeepは、macOS・Windows・Linuxで使える無料のデスクトップアプリです。長いチュートリアルの見返したい場面や、自分で録画したインタビューの音声を、指定したフォルダに保存できます。日本語を含む20の表示言語と7つのテーマに対応しています。
 
+**YouTubeから保存**：動画全体や指定した区間をMP4で保存できます。音楽など音声だけが必要な場合は、YouTubeのリンクからMP3として保存できます。
+
 ![MediaKeep 日本語版：動画ダウンロード](images/macos-video-ja.png)
 
 ![MediaKeep 日本語版：オーディオ抽出](images/macos-audio-ja.png)
