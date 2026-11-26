@@ -2,6 +2,8 @@
 
 # MediaKeep
 
+[English](README.md) · [日本語](docs/README.ja.md) · [한국어](docs/README.ko.md) · [简体中文](docs/README.zh-Hans.md) · [Español](docs/README.es.md) · [Français](docs/README.fr.md) · [Deutsch](docs/README.de.md) · [Português (Brasil)](docs/README.pt-BR.md)
+
 **Save videos. Extract audio. Keep everything in the right folder.**
 
 MediaKeep is a free desktop app for **macOS, Windows, and Linux**, with **20 interface languages** and seven appearance themes.
